@@ -32,18 +32,20 @@ class Oneallsociallogin_Api_Template extends vB_Api_Extensions
 	public $product = 'oneallsociallogin';
 	public $version = '1.1.0';
 	public $developer = 'OneAll';
-	public $title = 'Oneallsociallogin';
+	public $title = 'Oneall Social Login';
 	public $AutoInstall = 1;
 
 	public static function fetchBulk ($result, $template_names, $styleid = -1, $type = 'compiled')
 	{
+		// Check result
 		if (is_array ($result) and !empty ($result ['header']))
 		{
-			require_once (DIR . '/includes/class_template_parser.php');
-			
 			// Make sure the plugin is enabled
 			if (OneAllSocialLogin_Toolbox::display_plugin ())
 			{
+				// Template parser
+				require_once (DIR . '/includes/class_template_parser.php');
+				
 				// Setup our login box
 				$parser = new vB_TemplateParser ('{vb:template display_providers_login_box}');
 				$parser->dom_doc = new vB_DomDocument ($parser->fetch_dom_compatible ());
