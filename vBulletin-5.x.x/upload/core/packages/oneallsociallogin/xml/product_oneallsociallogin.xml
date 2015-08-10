@@ -146,28 +146,29 @@
 		</template>
 		
 		<template name="oneallsociallogin" templatetype="template" date="0" username="OneAll" version="1.0.0">
-			<![CDATA[
-				{vb:data oasl_version, site, version}
-				{vb:data oasl_providers, site, enabled_providers_js}
-				{vb:data oasl_num_providers, site, num_enabled_providers}	
-				{vb:data oasl_rnd, site, rnd}										
-		
-				<vb:if condition="$oasl_num_providers > 0">		
-					<!-- OneAll.com / Social Login {vb:raw oasl_version} for vBulletin -->
-					<div id="oasl_providers_{vb:raw oasl_rnd}" />
-					<script type="text/javascript">
-						var _oneall = _oneall || [];
-						_oneall.push(
-							['social_login', 'set_providers', [{vb:raw oasl_providers}]],
-							['social_login', 'set_callback_uri', '{vb:raw vboptions.frontendurl}/core/packages/oneallsociallogin/callback.php?origin=' + encodeURIComponent (window.location.href)],
-							['social_login', 'set_custom_css_uri', ((("https:" == document.location.protocol) ? "https://secure" : "http://public") + '.oneallcdn.com/css/api/socialize/themes/vbulletin/default.css')],
-							['social_login', 'do_render_ui', 'oasl_providers_{vb:raw oasl_rnd}']
-						);
-					</script>	
-				<vb:else />	
-					<div id="oneallsociallogin_error_box">
-						<strong>Warning</strong>! Please enable at least one social network in the Social Login settings in your vBulletin admin area.
-					</div>				
+			<![CDATA[			
+				<vb:if condition="$bbuserinfo['userid'] == 0">			
+					{vb:data oasl_version, site, version}
+					{vb:data oasl_providers, site, enabled_providers_js}
+					{vb:data oasl_num_providers, site, num_enabled_providers}	
+					{vb:data oasl_rnd, site, rnd}		
+					<vb:if condition="$oasl_num_providers > 0">		
+						<!-- OneAll.com / Social Login {vb:raw oasl_version} for vBulletin -->
+						<div id="oasl_providers_{vb:raw oasl_rnd}" />
+						<script type="text/javascript">
+							var _oneall = _oneall || [];
+							_oneall.push(
+								['social_login', 'set_providers', [{vb:raw oasl_providers}]],
+								['social_login', 'set_callback_uri', '{vb:raw vboptions.frontendurl}/core/packages/oneallsociallogin/callback.php?origin=' + encodeURIComponent (window.location.href)],
+								['social_login', 'set_custom_css_uri', ((("https:" == document.location.protocol) ? "https://secure" : "http://public") + '.oneallcdn.com/css/api/socialize/themes/vbulletin/default.css')],
+								['social_login', 'do_render_ui', 'oasl_providers_{vb:raw oasl_rnd}']
+							);
+						</script>	
+					<vb:else />	
+						<div id="oneallsociallogin_error_box">
+							<strong>Warning</strong>! Please enable at least one social network in the Social Login settings in your vBulletin admin area.
+						</div>				
+					</vb:if>	
 				</vb:if>	
 			]]>
 		</template>	
