@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <product productid="oneallsociallogin" active="1" displayorder="1">
 	<title>OneAll Social Login</title>
-	<description><![CDATA[Social Login for VBulletin allows your users to login and register with their social network accounts. It increases your user registration rate by simplifying the registration and provides demograpic data retrieved from the social network profiles.]]></description> 
-	<version>1.0</version>
+	<description><![CDATA[Social Login for vBulletin allows your users to login and register with their social network accounts. It increases your user registration rate by simplifying the registration and provides demograpic data retrieved from the social network profiles.]]></description> 
+	<version>1.1.0</version>
 	<url>http://www.oneall.com</url>
 	<versioncheckurl />
 	<dependencies>
 		<dependency dependencytype="php" minversion="5" maxversion="" />
 	</dependencies>
 	<codes>
-		<code version="1.0">
+		<code version="1.1.0">
 			<installcode>
 				<![CDATA[		
 				
@@ -144,10 +144,36 @@
 				<link href="{vb:raw vboptions.frontendurl}/core/packages/oneallsociallogin/include/assets/css/frontend.css" rel="stylesheet" type="text/css" />
 			]]>
 		</template>
-			
-		<template name="display_providers_login_box" templatetype="template" date="0" username="OneAll" version="1.0.0">
+		
+		<template name="oneallsociallogin" templatetype="template" date="0" username="OneAll" version="1.0.0">
 			<![CDATA[
-			
+				{vb:data oasl_version, site, version}
+				{vb:data oasl_providers, site, enabled_providers_js}
+				{vb:data oasl_num_providers, site, num_enabled_providers}	
+				{vb:data oasl_rnd, site, rnd}										
+		
+				<vb:if condition="$oasl_num_providers > 0">		
+					<!-- OneAll.com / Social Login {vb:raw oasl_version} for vBulletin -->
+					<div id="oasl_providers_{vb:raw oasl_rnd}" />
+					<script type="text/javascript">
+						var _oneall = _oneall || [];
+						_oneall.push(
+							['social_login', 'set_providers', [{vb:raw oasl_providers}]],
+							['social_login', 'set_callback_uri', '{vb:raw vboptions.frontendurl}/core/packages/oneallsociallogin/callback.php?origin=' + encodeURIComponent (window.location.href)],
+							['social_login', 'set_custom_css_uri', ((("https:" == document.location.protocol) ? "https://secure" : "http://public") + '.oneallcdn.com/css/api/socialize/themes/vbulletin/default.css')],
+							['social_login', 'do_render_ui', 'oasl_providers_{vb:raw oasl_rnd}']
+						);
+					</script>	
+				<vb:else />	
+					<div id="oneallsociallogin_error_box">
+						<strong>Warning</strong>! Please enable at least one social network in the Social Login settings in your vBulletin admin area.
+					</div>				
+				</vb:if>	
+			]]>
+		</template>	
+		
+		<template name="display_providers_login_box" templatetype="template" date="0" username="OneAll" version="1.0.0">
+			<![CDATA[			
 				{vb:data oasl_display, site, display_social_login}	 	
 				<vb:if condition="$oasl_display > 0">				
 					{vb:data oasl_version, site, version}
@@ -168,7 +194,7 @@
 										['social_login', 'set_providers', [{vb:raw oasl_providers}]],
 										['social_login', 'set_callback_uri', '{vb:raw vboptions.frontendurl}/core/packages/oneallsociallogin/callback.php?origin=' + encodeURIComponent (window.location.href)],
 										['social_login', 'set_grid_sizes', [5, 1]], 
-										['social_login', 'set_custom_css_uri', 'http://public.oneallcdn.com/css/api/socialize/themes/wordpress/default.css'],
+										['social_login', 'set_custom_css_uri', ((("https:" == document.location.protocol) ? "https://secure" : "http://public") + '.oneallcdn.com/css/api/socialize/themes/vbulletin/default.css')],
 										['social_login', 'do_render_ui', 'oneallsociallogin_login_box_top_providers']
 									);
 								</script>	
@@ -221,38 +247,38 @@
 	</hooks>
 	<phrases>		
 		<phrasetype name="GLOBAL" fieldname="global">		
-			<phrase name="oneallsociallogin" date="0" username="OneAll" version="1.0"><![CDATA[OneAll]]></phrase>
-			<phrase name="oneallsociallogin_title" date="0" username="OneAll" version="1.0"><![CDATA[OneAll Social Login]]></phrase>
-			<phrase name="oneallsociallogin_settings" date="0" username="OneAll" version="1.0"><![CDATA[Social Login2]]></phrase>
-			<phrase name="oneallsociallogin_menu_title" date="0" username="OneAll" version="1.0"><![CDATA[OneAll]]></phrase>
-			<phrase name="oneallsociallogin_menu_label" date="0" username="OneAll" version="1.0"><![CDATA[Social Login]]></phrase>	
+			<phrase name="oneallsociallogin" date="0" username="OneAll" version="1.0.0"><![CDATA[OneAll]]></phrase>
+			<phrase name="oneallsociallogin_title" date="0" username="OneAll" version="1.0.0"><![CDATA[OneAll Social Login]]></phrase>
+			<phrase name="oneallsociallogin_settings" date="0" username="OneAll" version="1.0.0"><![CDATA[Social Login2]]></phrase>
+			<phrase name="oneallsociallogin_menu_title" date="0" username="OneAll" version="1.0.0"><![CDATA[OneAll]]></phrase>
+			<phrase name="oneallsociallogin_menu_label" date="0" username="OneAll" version="1.0.0"><![CDATA[Social Login]]></phrase>	
 		</phrasetype>		
 		
 		<phrasetype name="vBulletin Settings" fieldname="vbsettings">		
 				 	
-		 	<phrase name="settinggroup_oneallsociallogin_login" username="OneAll" version="1.0">Social Login</phrase>
-		 	<phrase name="settinggroup_oneallsociallogin_link" username="OneAll" version="1.0">Social Link</phrase>		 	
+		 	<phrase name="settinggroup_oneallsociallogin_login" username="OneAll" version="1.0.0">Social Login</phrase>
+		 	<phrase name="settinggroup_oneallsociallogin_link" username="OneAll" version="1.0.0">Social Link</phrase>		 	
 		 			 	
-			<phrase name="settinggroup_oneallsociallogin_api" username="OneAll" version="1.0">API Setup</phrase>
-			<phrase name="settinggroup_oneallsociallogin_providers" username="OneAll" version="1.0">Social Networks</phrase>
+			<phrase name="settinggroup_oneallsociallogin_api" username="OneAll" version="1.0.0">API Setup</phrase>
+			<phrase name="settinggroup_oneallsociallogin_providers" username="OneAll" version="1.0.0">Social Networks</phrase>
 		
-			<phrase name="setting_oneallsociallogin_enable_social_login_title" username="OneAll" version="1.0"><![CDATA[Enable Social Login?]]></phrase>
-			<phrase name="setting_oneallsociallogin_enable_social_login_desc" username="OneAll" version="1.0"><![CDATA[If enabled, users can login and register with their social network accounts.]]></phrase>						
+			<phrase name="setting_oneallsociallogin_enable_social_login_title" username="OneAll" version="1.0.0"><![CDATA[Enable Social Login?]]></phrase>
+			<phrase name="setting_oneallsociallogin_enable_social_login_desc" username="OneAll" version="1.0.0"><![CDATA[If enabled, users can login and register with their social network accounts.]]></phrase>						
 			
-			<phrase name="setting_oneallsociallogin_social_login_caption_title" username="OneAll" version="1.0"><![CDATA[Social Login Caption]]></phrase>										
-			<phrase name="setting_oneallsociallogin_social_login_caption_desc" username="OneAll" version="1.0"><![CDATA[This title is displayed above the Social Login icons.]]></phrase>						
+			<phrase name="setting_oneallsociallogin_social_login_caption_title" username="OneAll" version="1.0.0"><![CDATA[Social Login Caption]]></phrase>										
+			<phrase name="setting_oneallsociallogin_social_login_caption_desc" username="OneAll" version="1.0.0"><![CDATA[This title is displayed above the Social Login icons.]]></phrase>						
 		
-			<phrase name="setting_oneallsociallogin_enable_social_link_title" username="OneAll" version="1.0"><![CDATA[Enable Social Link?]]></phrase>
-			<phrase name="setting_oneallsociallogin_enable_social_link_desc" username="OneAll" version="1.0"><![CDATA[If enabled, users can connect their social network accounts to their existing vBulletin account.]]></phrase>						
+			<phrase name="setting_oneallsociallogin_enable_social_link_title" username="OneAll" version="1.0.0"><![CDATA[Enable Social Link?]]></phrase>
+			<phrase name="setting_oneallsociallogin_enable_social_link_desc" username="OneAll" version="1.0.0"><![CDATA[If enabled, users can connect their social network accounts to their existing vBulletin account.]]></phrase>						
 		
-			<phrase name="setting_oneallsociallogin_social_link_caption_title" username="OneAll" version="1.0"><![CDATA[Social Link Caption]]></phrase>										
-			<phrase name="setting_oneallsociallogin_social_link_caption_desc" username="OneAll"	version="1.0"><![CDATA[This title is displayed above the Social Link icons.]]></phrase>						
+			<phrase name="setting_oneallsociallogin_social_link_caption_title" username="OneAll" version="1.0.0"><![CDATA[Social Link Caption]]></phrase>										
+			<phrase name="setting_oneallsociallogin_social_link_caption_desc" username="OneAll"	version="1.0.0"><![CDATA[This title is displayed above the Social Link icons.]]></phrase>						
 						
-			<phrase name="setting_oneallsociallogin_enable_auto_link_title" username="OneAll" version="1.0"><![CDATA[Automatically link social network accounts to existing user accounts? ]]></phrase>
-			<phrase name="setting_oneallsociallogin_enable_auto_link_desc" username="OneAll" version="1.0"><![CDATA[If enabled, social network accounts with a verified email address will be linked to existing user accounts having the same email address.]]></phrase>	
+			<phrase name="setting_oneallsociallogin_enable_auto_link_title" username="OneAll" version="1.0.0"><![CDATA[Automatically link social network accounts to existing user accounts? ]]></phrase>
+			<phrase name="setting_oneallsociallogin_enable_auto_link_desc" username="OneAll" version="1.0.0"><![CDATA[If enabled, social network accounts with a verified email address will be linked to existing user accounts having the same email address.]]></phrase>	
 
-			<phrase name="setting_oneallsociallogin_enable_avatar_upload_title" username="OneAll" version="1.0"><![CDATA[Import avatars from the social networks?]]></phrase>
-			<phrase name="setting_oneallsociallogin_enable_avatar_upload_desc" username="OneAll" version="1.0"><![CDATA[If enabled, user avatars will be retrieved from the social network profiles and stored in your vBulletin folder.]]></phrase>	
+			<phrase name="setting_oneallsociallogin_enable_avatar_upload_title" username="OneAll" version="1.0.0"><![CDATA[Import avatars from the social networks?]]></phrase>
+			<phrase name="setting_oneallsociallogin_enable_avatar_upload_desc" username="OneAll" version="1.0.0"><![CDATA[If enabled, user avatars will be retrieved from the social network profiles and stored in your vBulletin folder.]]></phrase>	
 
 			<phrase name="setting_oneallsociallogin_api_port_title" date="0" username="OneAll" version="1.0.0"><![CDATA[Connection Port]]></phrase>
 			<phrase name="setting_oneallsociallogin_api_port_desc" date="0" username="OneAll" version="1.0.0"><![CDATA[Select the port to be used to connect to the OneAll API.<br />Your firewall must allow outbound requests on the selected port.]]></phrase>

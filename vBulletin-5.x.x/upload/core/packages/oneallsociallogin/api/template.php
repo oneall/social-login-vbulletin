@@ -37,44 +37,21 @@ class Oneallsociallogin_Api_Template extends vB_Api_Extensions
 
 	public static function fetchBulk ($result, $template_names, $styleid = -1, $type = 'compiled')
 	{
-		global $vbulletin;
-		
-		if (isset ($result ['header']))
+		if (is_array ($result) and !empty ($result ['header']))
 		{
-			
-			$parser = $find = $replace = '';
 			require_once (DIR . '/includes/class_template_parser.php');
-
-			// Make sure the plugin is enabled 
-			if (OneAllSocialLogin_Toolbox::display_plugin())
-			{		
+			
+			// Make sure the plugin is enabled
+			if (OneAllSocialLogin_Toolbox::display_plugin ())
+			{
 				// Setup our login box
 				$parser = new vB_TemplateParser ('{vb:template display_providers_login_box}');
 				$parser->dom_doc = new vB_DomDocument ($parser->fetch_dom_compatible ());
 				$login_box = $parser->_parse_nodes ($parser->dom_doc->childNodes ());
 				
 				// Replace
-				$result ['header'] = preg_replace ('/<li\s+id=(["\']{1})idLoginIframeContainer/i', $login_box . '\0',  $result ['header'], -1, $count);
-
-			
+				$result ['header'] = preg_replace ('/<li\s+id=(["\']{1})idLoginIframeContainer/i', $login_box . '\0', $result ['header']);
 			}
-			
-							
-			
-			
-			
-			
-			
-			$parser = new vB_TemplateParser ('<div class="canvas-layout-container">');
-			$parser->dom_doc = new vB_DomDocument ($parser->fetch_dom_compatible ());
-			$find = trim ($parser->_parse_nodes ($parser->dom_doc->childNodes ()));
-			
-			$parser = new vB_TemplateParser ('{vb:template oneallsociallogin_error}');
-			$parser->dom_doc = new vB_DomDocument ($parser->fetch_dom_compatible ());
-			$replace = trim ($parser->_parse_nodes ($parser->dom_doc->childNodes ()));
-			
-			$result ['header'] = str_replace ($find, $find . $replace, $result ['header']);
-			unset ($parser, $find, $replace);
 		}
 		
 		return $result;

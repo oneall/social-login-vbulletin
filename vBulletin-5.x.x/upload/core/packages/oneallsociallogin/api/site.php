@@ -31,9 +31,9 @@ require_once (DIR . '/packages/oneallsociallogin/include/toolbox.php');
 class Oneallsociallogin_Api_Site extends vB_Api_Extensions
 {
 	protected $product = 'oneallsociallogin';
-	protected $title = 'Social Login Core';
+	protected $title = 'OneAll Social Login';
 	public $AutoInstall = 1;
-	public $version = '1.0.0';
+	public $version = '1.1.0';
 	public $developer = 'OneAll';
 	private $settings = null;
 	
@@ -99,6 +99,12 @@ class Oneallsociallogin_Api_Site extends vB_Api_Extensions
 	public function version ()
 	{
 		return $this->version;
+	}
+	
+	// Return a random id
+	public function rnd ()
+	{
+		return (rand (0, 999999) + 100000);
 	}
 	
 	// Return the API Subdomain
