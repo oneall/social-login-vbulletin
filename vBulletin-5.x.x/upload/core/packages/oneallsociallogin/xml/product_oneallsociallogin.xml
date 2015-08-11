@@ -658,8 +658,7 @@
 				<datatype>free</datatype>
 				<optioncode>
 					<![CDATA[<input type=\"text\" size=\"40\" value=\"$setting[value]\" id=\"oneallsociallogin_api_subdomain\" name=\"setting[oneallsociallogin_api_subdomain]\" class=\"bginput\" />]]>
-				</optioncode>
-				<defaultvalue>oneall</defaultvalue>
+				</optioncode>				
 			</setting>			
 			<setting varname="oneallsociallogin_api_key" displayorder="50">			
 				<datatype>free</datatype>
