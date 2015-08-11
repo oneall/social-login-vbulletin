@@ -74,7 +74,6 @@
 	</codes>
 	
 	<templates>		
-	include_social_link
 		<template name="include_social_link" templatetype="template" date="0" username="OneAll" version="1.0.0">
 			<![CDATA[
 			
