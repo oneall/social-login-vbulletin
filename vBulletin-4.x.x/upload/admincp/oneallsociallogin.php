@@ -73,21 +73,21 @@ $phrases = $db->query_read_slave ("
 		ORDER BY languageid ASC");
 while ( $phrase = $db->fetch_array ($phrases) )
 {
-	// For a nice look in Settings \ Options, our groups are prefixed with OneAll Social Login: 
-	if (strpos ($phrase['varname'], 'settinggroup_') !== false)
+	// For a nice look in Settings \ Options, our groups are prefixed with OneAll Social Login:
+	if (strpos ($phrase ['varname'], 'settinggroup_') !== false)
 	{
 		// This prefix is removed if the settings are display in OneAll \ Social Login
-		$phrase ['text'] = trim (str_replace ('OneAll Social Login:', '',  $phrase ['text']));
+		$phrase ['text'] = trim (str_replace ('OneAll Social Login:', '', $phrase ['text']));
 	}
 	
 	// For better remove the titles for the buttons and providers
-	if (preg_match ('/^setting_oneallsociallogin_(api_verify|api_autodetect|api_ provider_([^_]+))_title$/i', $phrase['varname']))
+	if (preg_match ('/^setting_oneallsociallogin_(api_verify|api_autodetect|api_ provider_([^_]+))_title$/i', $phrase ['varname']))
 	{
 		$phrase ['text'] = '';
 	}
-
+	
 	// Add text
-	$settingphrase [$phrase['varname']] = $phrase ['text'];	
+	$settingphrase [$phrase ['varname']] = $phrase ['text'];
 }
 
 // Action
@@ -213,13 +213,15 @@ if ($action == 'display')
 	construct_hidden_code ('dogroup', $arguments ['dogroup']);
 	construct_hidden_code ('advanced', $arguments ['advanced']);
 	
+	// Settings groups
+	$groups = array();
+	$groups [] = 'login';
+	$groups [] = 'link';
+	$groups [] = 'api';
+	$groups [] = 'providers';
+	
 	// Print Settings Tables
-	foreach (array(
-		'login',
-		'link',
-		'api',
-		'providers' 
-	) as $group)
+	foreach ($groups as $group)
 	{
 		print_setting_group ('oneallsociallogin_' . $group, $arguments ['advanced']);
 	}
