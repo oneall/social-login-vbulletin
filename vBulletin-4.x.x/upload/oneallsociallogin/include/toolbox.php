@@ -28,20 +28,6 @@ class OneAllSocialLogin_Toolbox
 	// Cache
 	public static $settings_cache = null;
 	
-	// Display Social Login?
-	public function display_plugin ()
-	{
-		return ((strlen (trim (self::get_setting ('api_subdomain'))) > 0 && self::get_setting ('enable_social_login') == 1) ? true : false);
-	}
-	
-	// Display Social Login?
-	public function is_product_enabled ()
-	{
-		return ( ! empty (self::get_setting ('enable_social_login')) || ! empty (self::get_setting ('enable_social_link')));
-	}
-	
-	
-	
 
 	/**
 	 * Return all our settings.
@@ -109,7 +95,9 @@ class OneAllSocialLogin_Toolbox
 	}
 
 
-	// Get the list of enabled providers
+	/**
+	 * Get the list of enabled providers
+	 */
 	public static function get_enabled_providers ()
 	{
 		// Providers
@@ -131,14 +119,9 @@ class OneAllSocialLogin_Toolbox
 		return $providers;
 	}
 	
-	// Get the list of enabled providers as JavaScript
-	public static function get_enabled_providers_js ()
-	{
-		return "'" . implode ("', '", self::get_enabled_providers ()) . "'";
-	}
 	
 	/**
-	 * Check if the current page is opened over https.
+	 * Check if the current page is opened over http(s).
 	 */
 	public static function is_https_on ()
 	{
@@ -227,10 +210,7 @@ class OneAllSocialLogin_Toolbox
 		}
 		
 		// Remove standard ports
-		$request_port = (!in_array ($request_port, array(
-			80,
-			443 
-		)) ? $request_port : '');
+		$request_port = (!in_array ($request_port, array(80, 443)) ? $request_port : '');
 		
 		// Build url
 		$current_url = $request_protocol . '://' . $request_host . (!empty ($request_port) ? (':' . $request_port) : '') . $request_uri;
@@ -273,19 +253,21 @@ class OneAllSocialLogin_Toolbox
 	{
 		global $vbulletin;
 		
+		// Group
+		$usergroupid = ($vbulletin->options ['moderatenewmembers'] ? 4 : 2);
+		
+		// Password
+		$userpassword = self::generate_hash (10);
+		
 		// Setup user
-		$user = new vB_Datamanager_User (vB_DataManager_Constants::ERRTYPE_ARRAY_UNPROCESSED);
-		$user->set ('email', $vbulletin->db->escape_string ($user_data ['user_email']));
-		$user->set ('ipaddress', vB::getRequest ()->getIpAddress ());
-		$user->set ('username', $vbulletin->db->escape_string ($user_data ['user_login_clean']));
-		$user->set ('usergroupid', ($vbulletin->options ['moderatenewmembers'] ? 4 : 2));
-		$user->set ('usertitle', vB_Api::instanceInternal ('user')->getUsertitleFromPosts (0));
-		$user->set ('customtitle', 0);
-		$user->set ('passworddate', date ('Y-m-d', vB::getRequest ()->getTimeNow ()));
-		$user->set ('secret', vB_Library::instance ('user')->generateUserSecret ());
-		$user->set ('joindate', time ());
-		$user->set ('posts', 0);
-		$user->set ('logintype', 'fb');
+		$user = &datamanager_init('User', $vbulletin, ERRTYPE_ARRAY);		
+		$user->set ('email', $user_data ['user_email']);
+		$user->set ('username', $user_data ['user_login_clean']);
+		$user->set ('password', $userpassword);		
+		$user->set ('usergroupid', $usergroupid);
+		$user->set ('languageid', $vbulletin->userinfo['languageid']);
+		$user->set_usertitle('', false, $vbulletin->usergroupcache[$usergroupid], false, false);		
+		$user->set ('ipaddress', IPADDRESS);
 		$user->pre_save ();
 		
 		// Errors
@@ -293,20 +275,23 @@ class OneAllSocialLogin_Toolbox
 		{
 			// Save
 			$userid = $user->save ();
+				
+			// Success
+			if ($userid)
+			{
+				// Set Rang
+				$userinfo = fetch_userinfo($userid,0,0,0,true);
+				$userdata_rank = &datamanager_init('User', $vbulletin, ERRTYPE_SILENT);
+				$userdata_rank->set_existing($userinfo);
+				$userdata_rank->set('posts', 0);
+				$userdata_rank->save();			
 			
-			// Generate a random password
-			$password = self::generate_hash (10);
-			
-			// Set a password
-			vB_Library::instance ('login')->setPassword ($userid, $password, array(
-				'passwordhistorylength' => vB::getUserContext ()->getLimit ('passwordhistory') 
-			));
-			
-			// Done
-			return array(
-				'userid' => $userid,
-				'password' => $password 
-			);
+				// Done
+				return array(
+					'userid' => $userid,
+					'password' => $userpassword 
+				);
+			}
 		}
 		
 		// Error
@@ -318,27 +303,23 @@ class OneAllSocialLogin_Toolbox
 	 */
 	public static function upload_user_avatar ($userid, $social_data)
 	{
-		global $vbulletin;
+		global $vbulletin, $permissions;
 		
 		// Check format
 		if (is_array ($social_data) && (!empty ($social_data ['user_thumbnail']) || !empty ($social_data ['user_picture'])))
-		{
-			// Context
-			$context = vB::getUserContext ($userid);
-			
+		{		
 			// User Info
-			$userinfo = vB_User::fetchUserInfo (intval ($userid));
+			$userinfo = fetch_userinfo($userid,0,0,0,true);
 			
 			// Init User datamanager
-			$userdata = new vB_Datamanager_User (vB_DataManager_Constants::ERRTYPE_ARRAY_UNPROCESSED);
+			$userdata = &datamanager_init ('User', $vbulletin, ERRTYPE_STANDARD);
 			$userdata->set_existing ($userinfo);
-			$userdata->set_bitfield ('adminoptions', 'adminavatar', 1);
-			
-			// Can this user upload avatars ?
-			if ($context->hasPermission ('genericpermissions', 'canuseavatar'))
-			{
+				
+			// Can we upload avatars ?
+			if ($vbulletin->bf_ugp_genericpermissions['canprofilepic'])
+			{		
 				// Toolbox
-				require_once (DIR . '/packages/oneallsociallogin/include/communication.php');
+				require_once (DIR . '/oneallsociallogin/include/communication.php');
 				
 				// Use this avatar
 				$user_avatar_url = (!empty ($social_data ['user_picture']) ? $social_data ['user_picture'] : $social_data ['user_thumbnail']);
@@ -351,22 +332,43 @@ class OneAllSocialLogin_Toolbox
 				
 				// Success?
 				if (is_object ($api_result) && property_exists ($api_result, 'http_code') && $api_result->http_code == 200)
-				{
-					// Avatar Limitations
+				{										
+					// Width
 					$min_width = 1;
-					$min_height = 1;
-					$max_width = $context->getLimit ('avatarmaxwidth');
-					$max_height = $context->getLimit ('avatarmaxheight');
+					$max_width = 9999;
 					
+					// Height
+					$min_height = 1;
+					$max_height = 9999;
+					
+					// Get avatar max sizes
+					if (! empty ($userinfo['usergroupid']))
+					{
+						$sql = "SELECT usergroupid, avatarmaxwidth, avatarmaxheight FROM " . TABLE_PREFIX . "usergroup WHERE usergroupid  = '" . intval ($userinfo['usergroupid']) . "'";
+						$result = $vbulletin->db->query_first ($sql);
+						if (is_array ($result) && !empty ($result ['usergroupid']))
+						{
+							if ($result ['avatarmaxwidth'] > 0)
+							{
+								$max_width = $result ['avatarmaxwidth'];
+							}
+							
+							if ($result ['avatarmaxheight'] > 0)
+							{
+								$max_height = $result ['avatarmaxheight'];
+							}
+						}
+					}												
+											
 					// File data
 					$file_data = $api_result->http_data;
-					
+										
 					// Temporary filename
-					$file_tmp_name = vB_Utilities::getTmpFileName ('', 'vbprofile', ".tmp");
+					$file_tmp_name = ($vbulletin->options['tmppath'] . '/vbupload-' . $userinfo['userid'] . '-' . time() . '-'. rand (1000, 9999) .'.tmp');
 					
 					// Save file
 					if (($fp = @fopen ($file_tmp_name, 'wb')) !== false)
-					{
+					{				
 						// Write file
 						$avatar_size = fwrite ($fp, $file_data);
 						fclose ($fp);
@@ -382,16 +384,16 @@ class OneAllSocialLogin_Toolbox
 						
 						// Check image size and type
 						if ($width > $min_width && $height > $min_height && isset ($file_exts [$type]))
-						{
+						{						
 							// File extension
 							$file_ext = $file_exts [$type];
 							
 							// Check if we can resize the image if needd
 							if (function_exists ('imagecreatetruecolor') && function_exists ('imagecopyresampled'))
-							{
+							{							
 								// Check if we need to resize
 								if ($width > $max_width || $height > $max_height)
-								{
+								{								
 									// Keep original size
 									$orig_height = $height;
 									$orig_width = $width;
@@ -439,21 +441,19 @@ class OneAllSocialLogin_Toolbox
 							
 							// Final path
 							$avatar_name = "avatar" . $userid . "_" . ($userinfo ['avatarrevision'] + 1) . "." . $file_exts [$type];
-							$avatar_full_name = rtrim (vB::getDatastore ()->getOption ('avatarpath'), ' /') . '/' . $avatar_name;
+							$avatar_full_name = rtrim ($vbulletin->options['avatarpath'], ' /') . '/' . $avatar_name;
 							
 							// Move file
 							if (@copy ($file_tmp_name, $avatar_full_name))
-							{
+							{								
 								// Save
-								$userpic = new vB_DataManager_Userpic (vB_DataManager_Constants::ERRTYPE_ARRAY_UNPROCESSED);
+								$userpic = &datamanager_init('Userpic_Avatar', $vbulletin, ERRTYPE_STANDARD, 'userpic');
+								$userpic->set ('dateline', TIMENOW);
 								$userpic->set ('userid', $userid);
-								$userpic->set ('dateline', vB::getRequest ()->getTimeNow ());
+								$userpic->set ('filename', $avatar_name);
+								$userpic->set ('filedata', file_get_contents ($avatar_full_name));
 								$userpic->set ('width', $width);
 								$userpic->set ('height', $height);
-								$userpic->set ('extension', $file_exts [$type]);
-								$userpic->set ('filedata', file_get_contents ($avatar_full_name));
-								$userpic->set ('filename', $avatar_name);
-								$userpic->set ('filesize', filesize ($avatar_full_name));
 								$userpic->save ();
 								
 								// Save
@@ -906,7 +906,7 @@ class OneAllSocialLogin_Toolbox
 						$data ['user_login_clean'] = str_replace (' ', '', trim ($data ['user_login']));
 						
 						// Clean
-						$data ['user_login_clean'] = vB_String::unHtmlSpecialChars ($data ['user_login_clean']);
+						$data ['user_login_clean'] = htmlspecialchars_decode ($data ['user_login_clean']);
 						
 						// Website/Homepage.
 						$data ['user_website'] = '';

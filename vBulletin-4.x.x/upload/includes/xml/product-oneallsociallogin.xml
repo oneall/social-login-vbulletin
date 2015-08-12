@@ -2,14 +2,14 @@
 <product productid="oneallsociallogin" active="1" displayorder="1">
 	<title>OneAll Social Login</title>
 	<description><![CDATA[Social Login for vBulletin allows your users to login and register with their social network accounts. It increases your user registration rate by simplifying the registration and provides demograpic data retrieved from the social network profiles.]]></description> 
-	<version>1.1.0</version>
+	<version>1.0.0</version>
 	<url>http://www.oneall.com</url>
 	<versioncheckurl />
 	<dependencies>
 		<dependency dependencytype="php" minversion="5" maxversion="" />
 	</dependencies>
 	<codes>
-		<code version="1.1.0">
+		<code version="1.0.0">
 			<installcode>
 				<![CDATA[		
 				
@@ -81,75 +81,23 @@
 	
 
 	<templates>		
-		<template name="include_social_link" templatetype="template" date="0" username="OneAll" version="1.0.0">
-			<![CDATA[			
-				
-				<vb:if condition="{vb:raw oasl.display_socia_link} > 0">				
-					{vb:raw oasl_version, site, version}	
-					{vb:raw oasl_providers, site, enabled_providers_js}
-					{vb:raw oasl_num_providers, site, num_enabled_providers}	
-					{vb:raw oasl_user_token, site, current_user_user_token}
-					{vb:raw oasl_session_token, site, current_user_session_token}		
-					{vb:raw oasl_social_link_caption, site, social_link_caption}													
-					<div class="l-row l-row__fixed--left h-padding-horiz-xl h-padding-bottom-xxl">
-						<div class="l-col__fixed-2 l-col__small--full h-padding-right-m">
-							<label class="b-form-input__label" for="field4_29">Social Link</label>
-						</div>
-						<div class="l-col__flex-2 l-col__small--full">	
-							<vb:if condition="$oasl_num_providers > 0">										
-								<div id="oneallsociallogin_link_box_profile">
-									<vb:if condition="$oasl_social_link_caption != ''">
-										<p class="oneallsociallogin_caption">{vb:raw oasl_social_link_caption}</p>
-									</vb:if>						
-									<!-- OneAll.com / Social Login {vb:raw oasl_version} for vBuon	lletin -->
-									<div id="oneallsociallogin_link_box_profile_providers" />
-										<script type="text/javascript">
-											var _oneall = _oneall || [];
-											_oneall.push(
-												['social_link', 'set_providers', [{vb:raw oasl_providers}]],
-												['social_link', 'set_callback_uri', '{vb:raw vboptions.frontendurl}/oneallsociallogin/callback.php?token={vb:raw oasl_session_token}&amp;origin=' + encodeURIComponent (window.location.href)],
-												['social_link', 'set_user_token', '{vb:raw oasl_user_token}'],											
-												['social_link', 'do_render_ui', 'oneallsociallogin_link_box_profile_providers']
-											);
-										</script>	
-									</div>
-								</div>	
-							<vb:else />	
-								<div id="oneallsociallogin_error_box">
-									<strong>Warning</strong>! Please enable at least one social network in the Social Login settings in your vBulletin admin area.
-								</div>				
-							</vb:if>						
-						</div>
-					</div>
-				</vb:if>
-				
-			]]>
-		</template>
-		
-
-		
 	
-
-				
-
-		<template name="oneallsociallogin" templatetype="template" date="0" username="OneAll" version="1.0.0">
+		<template name="oneallsociallogin_social_login" templatetype="template" date="0" username="OneAll" version="1.0.0">
 			<![CDATA[			
-				<vb:if condition="$bbuserinfo['userid'] == 0">			
-					{vb:raw oasl_version, site, version}
-					{vb:raw oasl_providers, site, enabled_providers_js}
-					{vb:raw oasl_num_providers, site, num_enabled_providers}	
-					{vb:raw oasl_rnd, site, rnd}		
-					<vb:if condition="$oasl_num_providers > 0">		
-						<!-- OneAll.com / Social Login {vb:raw oasl_version} for vBulletin -->
-						<div id="oasl_providers_{vb:raw oasl_rnd}" />
+				<vb:if condition="$bbuserinfo['userid'] == 0">		
+					<vb:if condition="$oasl_providers != ''">	
+						<!-- OneAll.com / Social Login for vBulletin -->
+						<div id="oneall_social_login_{vb:raw oasl_rand}"></div>
 						<script type="text/javascript">
+						<!--
 							var _oneall = _oneall || [];
 							_oneall.push(
-								['social_login', 'set_providers', [{vb:raw oasl_providers}]],
-								['social_login', 'set_callback_uri', '{vb:raw vboptions.frontendurl}/oneallsociallogin/callback.php?origin=' + encodeURIComponent (window.location.href)],
-								['social_login', 'set_custom_css_uri', ((("https:" == document.location.protocol) ? "https://secure" : "http://public") + '.oneallcdn.com/css/api/socialize/themes/vbulletin/default.css')],
-								['social_login', 'do_render_ui', 'oasl_providers_{vb:raw oasl_rnd}']
+								['social_login', 'set_providers', ['{vb:raw oasl_providers}']],
+								['social_login', 'set_callback_uri', '{vb:raw oasl_callback_url}'],
+								['social_login', 'set_custom_css_uri', '{vb:raw oasl_custom_css}'],
+								['social_login', 'do_render_ui', 'oneall_social_login_{vb:raw oasl_rand}']
 							);
+						// -->
 						</script>	
 					<vb:else />	
 						<div id="oneallsociallogin_error_box">
@@ -160,39 +108,137 @@
 			]]>
 		</template>	
 		
-		<template name="display_providers_login_box" templatetype="template" date="0" username="OneAll" version="1.0.0">
-			<![CDATA[			
-				{vb:raw oasl_display, site, display_social_login}	 	
-				<vb:if condition="$oasl_display > 0">				
-					{vb:raw oasl.version}
-					{vb:raw oasl.providers}
-					{vb:raw oasl.num_providers}	
-					{vb:raw oasl.social_login_caption}												
-					<li class="b-menu__login-iframe-container">
-						<vb:if condition="$oasl_num_providers > 0">								
-							<div id="oneallsociallogin_login_box_top">
-								<vb:if condition="$oasl_social_login_caption != ''">	
-									<div class="oneallsociallogin_caption">{vb:raw oasl_social_login_caption}</div>	
-								</vb:if>						
-								<!-- OneAll.com / Social Login {vb:raw oasl_version} for vBulletin -->
-								<div id="oneallsociallogin_login_box_top_providers" />
-								<script type="text/javascript">
-									var _oneall = _oneall || [];
-									_oneall.push(
-										['social_login', 'set_providers', [{vb:raw oasl_providers}]],
-										['social_login', 'set_callback_uri', '{vb:raw vboptions.frontendurl}/oneallsociallogin/callback.php?origin=' + encodeURIComponent (window.location.href)],
-										['social_login', 'set_grid_sizes', [5, 1]], 
-										['social_login', 'set_custom_css_uri', ((("https:" == document.location.protocol) ? "https://secure" : "http://public") + '.oneallcdn.com/css/api/socialize/themes/vbulletin/default.css')],
-										['social_login', 'do_render_ui', 'oneallsociallogin_login_box_top_providers']
-									);
-								</script>	
+		<template name="oneallsociallogin_social_login_registration" templatetype="template" date="0" username="OneAll" version="1.0.0">
+			<![CDATA[		
+				<div class="oneall_social_login_registration">
+					<h2 class="blockhead">{vb:raw oasl_caption}</h2>
+					<div class="blockbody formcontrols">
+						<div class="section">
+							<div class="blockrow">
+								<vb:if condition="$oasl_providers != ''">						
+									<!-- OneAll.com / Social Login for vBulletin -->
+									<div class="oneall_social_login" id="oneall_social_login_{vb:raw oasl_rand}"></div>
+									<script type="text/javascript">
+									<!--
+										var _oneall = _oneall || [];
+										_oneall.push(
+											['social_login', 'set_providers', ['{vb:raw oasl_providers}']],
+											['social_login', 'set_callback_uri', '{vb:raw oasl_callback_url}?origin=' + encodeURIComponent (window.location.href)],
+											['social_login', 'set_custom_css_uri', '{vb:raw oasl_custom_css}'],
+											['social_login', 'do_render_ui', 'oneall_social_login_{vb:raw oasl_rand}']
+										);
+									// -->
+									</script>
+								<vb:else />	
+									<div id="oneallsociallogin_error_box">
+										<strong>Warning</strong>! Please enable at least one social network in the Social Login settings in your vBulletin admin area.
+									</div>
+								</vb:if>	
 							</div>
-						<vb:else />	
-							<div id="oneallsociallogin_error_box">
-								<strong>Warning</strong>! Please enable at least one social network in the Social Login settings in your vBulletin admin area.
-							</div>				
-						</vb:if>						
-					</li>
+						</div>
+					</div>
+				</div>
+			]]>
+		</template>
+		
+		<template name="oneallsociallogin_social_login_top" templatetype="template" date="0" username="OneAll" version="1.0.0">
+			<![CDATA[		
+				<vb:if condition="$oasl_providers != ''">
+					<vb:if condition="$oasl_caption != ''">
+						<li>
+							<a class="oneall_social_login_top_links" id="oneall_social_login_{vb:raw oasl_rand}">
+								{vb:raw oasl_caption}
+							</a>					
+							<script type="text/javascript">
+							<!--
+								var _oneall = _oneall || [];
+								_oneall.push(
+									['social_login', 'set_providers', ['{vb:raw oasl_providers}']],		
+									['social_login', 'set_callback_uri', '{vb:raw oasl_callback_url}?origin=' + encodeURIComponent (window.location.href)],	
+									['social_login', 'attach_onclick_popup_ui', 'oneall_social_login_{vb:raw oasl_rand}']
+								);
+							// -->
+							</script>													
+						</li>		
+					</vb:if>
+				</vb:if>
+			]]>
+		</template>
+		
+		<template name="oneallsociallogin_social_link" templatetype="template" date="0" username="OneAll" version="1.0.0">
+			<![CDATA[		
+				<vb:if condition="$bbuserinfo['userid'] != 0">
+					<vb:if condition="$oasl_providers != ''">						
+						<!-- OneAll.com / Social Login for vBulletin -->
+						<div class="oneall_social_login" id="oneallsociallogin_link_{vb:raw oasl_rand}"></div>
+						<script type="text/javascript">
+							<!--
+								var _oneall = _oneall || [];
+								_oneall.push(
+									['social_link', 'set_providers', ['{vb:raw oasl_providers}']],
+									['social_link', 'set_callback_uri', '{vb:raw oasl_callback_url}?token={vb:raw oasl_session_token}&amp;origin=' + encodeURIComponent (window.location.href)],
+									['social_link', 'set_custom_css_uri', '{vb:raw oasl_custom_css}'],
+									['social_link', 'set_user_token', '{vb:raw oasl_user_token}'],	
+									['social_link', 'do_render_ui', 'oneallsociallogin_link_{vb:raw oasl_rand}']
+								);
+							// -->
+						</script>
+					<vb:else />	
+						<div id="oneallsociallogin_error_box">
+							<strong>Warning</strong>! Please enable at least one social network in the Social Login settings in your vBulletin admin area.
+						</div>
+					</vb:if>	
+				</vb:if>
+			]]>
+		</template>
+		
+		<template name="oneallsociallogin_social_link_profile" templatetype="template" date="0" username="OneAll" version="1.0.0">
+			<![CDATA[		
+				<vb:if condition="$bbuserinfo['userid'] != 0">
+					<div class="oneall_social_login_profile">
+						<h2 class="blockhead">{vb:raw oasl_caption}</h2>
+						<div class="blockbody formcontrols">
+							<div class="section">
+								<div class="blockrow">
+									<vb:if condition="$oasl_providers != ''">						
+										<!-- OneAll.com / Social Login for vBulletin -->
+										<div class="oneall_social_login" id="oneall_social_login_{vb:raw oasl_rand}"></div>
+										<script type="text/javascript">
+										<!--
+											var _oneall = _oneall || [];
+											_oneall.push(
+												['social_link', 'set_providers', ['{vb:raw oasl_providers}']],
+												['social_link', 'set_callback_uri', '{vb:raw oasl_callback_url}?token={vb:raw oasl_session_token}&amp;origin=' + encodeURIComponent (window.location.href)],
+												['social_link', 'set_custom_css_uri', '{vb:raw oasl_custom_css}'],
+												['social_link', 'set_user_token', '{vb:raw oasl_user_token}'],	
+												['social_link', 'do_render_ui', 'oneall_social_login_{vb:raw oasl_rand}']
+											);
+										// -->
+										</script>
+									<vb:else />	
+										<div id="oneallsociallogin_error_box">
+											<strong>Warning</strong>! Please enable at least one social network in the Social Login settings in your vBulletin admin area.
+										</div>
+									</vb:if>	
+								</div>
+							</div>
+						</div>
+					</div>
+				</vb:if>
+			]]>
+		</template>
+			
+		<template name="oneallsociallogin_library" templatetype="template" date="0" username="OneAll" version="1.0.0">
+			<![CDATA[		
+				<vb:if condition="$oasl_subdomain != ''">
+					<!-- OneAll.com / Social Login for vBulletin -->
+					<script type="text/javascript">
+					<!--
+						var oal = document.createElement("script"); oal.type = "text/javascript"; oal.async = true;
+						oal.src = "//{vb:raw oasl_subdomain}.api.oneall.com/socialize/library.js";
+						var oas = document.getElementsByTagName("script")[0]; oas.parentNode.insertBefore(oal, oas);
+					// -->
+					</script>
 				</vb:if>
 			]]>
 		</template>	
@@ -204,7 +250,7 @@
             <hookname>parse_templates</hookname>
             <phpcode>
             	<![CDATA[
-            	
+            	            	
             		// Add our class            
             		if ( ! class_exists ('OneAllSocialLogin_Integration', false)) 
             		{
@@ -212,30 +258,13 @@
 					}
 					
 					// Parse Templates
-					OneAllSocialLogin_Integration::parse_templates();
-					
+					OneAllSocialLogin_Integration::parse_templates();		
+								
 				]]>
 			</phpcode>
         </plugin>
 	</plugins>		
-	
-	<hooks>		
-		<hook>
-			<hookname>settings_profile</hookname>
-			<title>OneAll Social Login Link</title>
-			<active>1</active>
-			<hookorder>11</hookorder>
-			<template>include_social_link</template>
-			<arguments />
-		</hook>	
-	
 
-			
-	
-	
-
-		
-	</hooks>
 	<phrases>		
 		<phrasetype name="GLOBAL" fieldname="global">		
 			<phrase name="oneallsociallogin" date="0" username="OneAll" version="1.0.0"><![CDATA[OneAll]]></phrase>
@@ -245,7 +274,7 @@
 			<phrase name="oneallsociallogin_menu_label" date="0" username="OneAll" version="1.0.0"><![CDATA[Social Login]]></phrase>	
 		</phrasetype>		
 		
-		<phrasetype name="vBulletin Settings" fieldname="vbsettings">		
+		<phrasetype name="vBulletin Settings" fieldname="vbsettings">	
 				 	
 		 	<phrase name="settinggroup_oneallsociallogin_login" username="OneAll" version="1.0.0">OneAll Social Login: Social Login Settings</phrase>
 		 	<phrase name="settinggroup_oneallsociallogin_link" username="OneAll" version="1.0.0">OneAll Social Login: Social Link Settings</phrase>		 	
@@ -256,8 +285,11 @@
 			<phrase name="setting_oneallsociallogin_enable_social_login_title" username="OneAll" version="1.0.0"><![CDATA[Enable Social Login?]]></phrase>
 			<phrase name="setting_oneallsociallogin_enable_social_login_desc" username="OneAll" version="1.0.0"><![CDATA[If enabled, users can login and register with their social network accounts.]]></phrase>						
 			
-			<phrase name="setting_oneallsociallogin_social_login_caption_title" username="OneAll" version="1.0.0"><![CDATA[Social Login Caption]]></phrase>										
-			<phrase name="setting_oneallsociallogin_social_login_caption_desc" username="OneAll" version="1.0.0"><![CDATA[This title is displayed above the Social Login icons.]]></phrase>						
+			<phrase name="setting_oneallsociallogin_social_login_top_caption_title" username="OneAll" version="1.0.0"><![CDATA[Top Links Caption]]></phrase>										
+			<phrase name="setting_oneallsociallogin_social_login_top_caption_desc" username="OneAll" version="1.0.0"><![CDATA[This title is displayed near the Social Login icons in the upper navigation bar.]]></phrase>						
+		
+			<phrase name="setting_oneallsociallogin_social_login_reg_caption_title" username="OneAll" version="1.0.0"><![CDATA[Registration Page Caption]]></phrase>										
+			<phrase name="setting_oneallsociallogin_social_login_reg_caption_desc" username="OneAll" version="1.0.0"><![CDATA[This title is displayed above the Social Login icons on the registration page.]]></phrase>						
 		
 			<phrase name="setting_oneallsociallogin_enable_social_link_title" username="OneAll" version="1.0.0"><![CDATA[Enable Social Link?]]></phrase>
 			<phrase name="setting_oneallsociallogin_enable_social_link_desc" username="OneAll" version="1.0.0"><![CDATA[If enabled, users can connect their social network accounts to their existing vBulletin account.]]></phrase>						
@@ -498,8 +530,14 @@
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
 				<defaultvalue>1</defaultvalue>
-			</setting>			
-			<setting varname="oneallsociallogin_social_login_caption" displayorder="11">
+			</setting>		
+			
+			<setting varname="oneallsociallogin_social_login_top_caption" displayorder="11">
+				<datatype>free</datatype>
+				<defaultvalue>Connect with a Social Network</defaultvalue>
+			</setting>	
+				
+			<setting varname="oneallsociallogin_social_login_reg_caption" displayorder="11">
 				<datatype>free</datatype>
 				<defaultvalue>Login with your social network account</defaultvalue>
 			</setting>	

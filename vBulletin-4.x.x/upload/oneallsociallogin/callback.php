@@ -31,29 +31,29 @@ define ('VB_ENTRY', 1);
 define ('SKIP_REFERRER_CHECK', true);
 
 // ######################### REQUIRE BACK-END ############################
-chdir ('../../');
+chdir ('../');
 require_once ('./global.php');
 
 // #######################################################################
 // ######################## START MAIN SCRIPT ############################
 // #######################################################################
 
-// Read arguments
-$arguments = vB::getCleaner ()->cleanArray ($_REQUEST, array(
-	'oa_action' => vB_Cleaner::TYPE_STR,
-	'connection_token' => vB_Cleaner::TYPE_STR,
-	'origin' => vB_Cleaner::TYPE_STR,
-	'token' => vB_Cleaner::TYPE_STR 
+// Parse arguments
+$vbulletin->input->clean_array_gpc ('r', array(
+	'oa_action' => TYPE_STR,
+	'connection_token' => TYPE_STR,
+	'origin' => TYPE_STR,
+	'token' => TYPE_STR 
 ));
 
-// Default Redirect
-$redirect_url = vB5_Route::buildUrl ('home|fullurl');
+// Setup arguments
+$arguments = $vbulletin->GPC;
 
 // Check if we have a callback and make sure the plugin is enabled
 if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']))
 {
 	// Toolbox
-	require_once (DIR . '/packages/oneallsociallogin/include/toolbox.php');
+	require_once (DIR . '/oneallsociallogin/include/toolbox.php');
 	
 	// Read Settings
 	$oasl_settings = OneAllSocialLogin_Toolbox::get_settings (true);
@@ -70,7 +70,7 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 		if (!empty ($api_key) && !empty ($api_secret) && !empty ($api_subdomain))
 		{
 			// Communication
-			require_once (DIR . '/packages/oneallsociallogin/include/communication.php');
+			require_once (DIR . '/oneallsociallogin/include/communication.php');
 			
 			// API Settings.
 			$api_connection_handler = ($oasl_settings ['api_connector'] == 'fsockopen' ? 'fsockopen' : 'curl');
@@ -194,29 +194,21 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 						require_once (DIR . '/includes/functions_login.php');
 						require_once (DIR . '/includes/functions.php');
 						
-						
-						// Retrieve user information
-						$userinfo = vB_User::fetchUserinfo ($userid);
-						
 						// Setup a new session
-						$vbulletin->userinfo = $userinfo;
-						$vbulletin->session->created = TRUE;
-						
-						// Delete existing session
-						vB::getDbAssertor ()->delete ('session', array(
-							'sessionhash' => vB::getCurrentSession ()->get ('dbsessionhash') 
-						));
+						$vbulletin->userinfo = fetch_userinfo ($userid);
+						$vbulletin->session->created = false;
 						
 						// Login the user
-						$result = vB_User::processNewLogin (array(
-							'userid' => $userid 
-						));
+						$result = process_new_login ('', true, '');
+						
+						// Save session
+						$vbulletin->session->save ();
 						
 						// Redirect
 						if (!empty ($arguments ['origin']))
 						{
 							// Security check
-							if (parse_url ($arguments ['origin'], PHP_URL_HOST) == parse_url ($vbulletin->options ['frontendurl'], PHP_URL_HOST))
+							if (parse_url ($arguments ['origin'], PHP_URL_HOST) == parse_url ($vbulletin->options ['bburl'], PHP_URL_HOST))
 							{
 								$redirect_url = $arguments ['origin'];
 							}
@@ -227,11 +219,13 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 				elseif ($arguments ['oa_action'] == 'social_link')
 				{
 					// Read userid
-					$userid = OneAllSocialLogin_Toolbox::get_user_for_session_token ($arguments['token']);					
-					if ( ! empty ($userid))
+					$userid = OneAllSocialLogin_Toolbox::get_user_for_session_token ($arguments ['token']);
+					
+					if (!empty ($userid))
 					{
 						// Retrieve user information
-						$userinfo = vB_User::fetchUserinfo ($userid);
+						$userinfo = fetch_userinfo ($userid);
+						
 						if (is_array ($userinfo) and !empty ($userinfo ['userid']))
 						{
 							// Logged in user
@@ -242,7 +236,7 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 							
 							// Read the user_id for this user_token
 							$userid_tmp = OneAllSocialLogin_Toolbox::get_userid_for_user_token ($user_data ['user_token']);
-									
+							
 							// There is already a userid for this token
 							if (!empty ($userid_tmp))
 							{
@@ -252,8 +246,8 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 									// Do not update the tokens.
 									$update_tokens = false;
 								}
-							}							
-									
+							}
+							
 							// Update token?
 							if ($update_tokens === true)
 							{
@@ -272,7 +266,7 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 							if (!empty ($arguments ['origin']))
 							{
 								// Security check
-								if (parse_url ($arguments ['origin'], PHP_URL_HOST) == parse_url ($vbulletin->options ['frontendurl'], PHP_URL_HOST))
+								if (parse_url ($arguments ['origin'], PHP_URL_HOST) == parse_url ($vbulletin->options ['bburl'], PHP_URL_HOST))
 								{
 									$redirect_url = $arguments ['origin'];
 								}
@@ -285,5 +279,11 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 	}
 }
 
-// Default
+// Check redirect_url
+if (empty ($redirect_url) || preg_match ('/login\.php|register\.php/i', $redirect_url))
+{
+	$redirect_url = fetch_seo_url ('forumhome|nosession', array());
+}
+
+// Redirect
 exec_header_redirect ($redirect_url);

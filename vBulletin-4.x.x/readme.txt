@@ -22,8 +22,11 @@ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 1. Requirements
 
-		OneAll Social Login requires at least vBulletin 5.0.2 a
-		This is a vBulletin 5 mod, it will not work correctly in vBulletin 4.x.
+		OneAll Social Login requires at least vBulletin 4.x.x.
+		This is a vBulletin 4 mod, it will not work correctly in vBulletin 3 or 5.
+		
+		You can find the same extension for vBulletin 5 here:
+		http://docs.oneall.com/plugins/guide/social-login-vbulletin/
 
 
 2. Installation / Upgrade

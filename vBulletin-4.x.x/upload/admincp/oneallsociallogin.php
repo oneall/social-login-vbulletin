@@ -90,9 +90,6 @@ while ( $phrase = $db->fetch_array ($phrases) )
 	$settingphrase [$phrase['varname']] = $phrase ['text'];	
 }
 
-/*
- * $vb_options = vB::getDatastore ()->getValue ('options');
- */
 // Action
 $action = $arguments ['do'];
 

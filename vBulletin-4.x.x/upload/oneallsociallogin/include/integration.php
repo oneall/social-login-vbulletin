@@ -29,45 +29,111 @@ require_once (DIR . '/oneallsociallogin/include/toolbox.php');
 class OneAllSocialLogin_Integration
 {
 	// Include Social Login
+	public static function hook_include_social_link ()
+	{
+		global $template_hook, $vbulletin, $vboptions;
+		
+		// The user must be logged in for Social Link
+		if (!empty ($vbulletin->userinfo ['userid']))
+		{
+			// User Data
+			$oasl_user_token = OneAllSocialLogin_Toolbox::get_user_token_for_userid ($vbulletin->userinfo ['userid']);
+			$oasl_session_token = OneAllSocialLogin_Toolbox::generate_session_token_for_userid ($vbulletin->userinfo ['userid']);
+			$oasl_providers = OneAllSocialLogin_Toolbox::get_enabled_providers ();
+			
+			// Profile Settings
+			if (isset ($vbulletin->templatecache ['modifyprofile']))
+			{
+				// Build Template
+				$templater = vB_Template::create ('oneallsociallogin_social_link_profile');
+				$templater->register ('oasl_rand', (rand (1, 99999) + 100000));
+				$templater->register ('oasl_caption', OneAllSocialLogin_Toolbox::get_setting ('social_link_caption'));
+				$templater->register ('oasl_custom_css', '');
+				$templater->register ('oasl_callback_url', ($vbulletin->options ['bburl'] . '/oneallsociallogin/callback.php'));
+				$templater->register ('oasl_providers', implode ("', '", $oasl_providers));
+				$templater->register ('oasl_user_token', $oasl_user_token);
+				$templater->register ('oasl_session_token', $oasl_session_token);
+				
+				// Retrieve contents (single-quotes break eval, we need to escape them)
+				$contents = $templater->render ();
+				$contents = str_replace ("'", "\'", $contents);
+				
+				// Inject it to the template
+				$vbulletin->templatecache ['modifyprofile'] = str_replace ('<form', $contents . '<form', $vbulletin->templatecache ['modifyprofile']);
+			}
+			
+			// Generic
+			$templater = vB_Template::create ('oneallsociallogin_social_link');
+			$templater->register ('oasl_rand', (rand (1, 99999) + 100000));
+			$templater->register ('oasl_caption', OneAllSocialLogin_Toolbox::get_setting ('social_link_caption'));
+			$templater->register ('oasl_custom_css', '');
+			$templater->register ('oasl_callback_url', ($vbulletin->options ['bburl'] . '/oneallsociallogin/callback.php'));
+			$templater->register ('oasl_providers', implode ("', '", $oasl_providers));
+			$templater->register ('oasl_user_token', $oasl_user_token);
+			$templater->register ('oasl_session_token', $oasl_session_token);
+			$contents = $templater->render ();
+			
+			// {vb:raw vboptions.oneallsociallogin}
+			$vbulletin->options ['oneallsociallogin_link'] = $contents;
+		}
+	}
+	
+	// Include Social Login
 	public static function hook_include_social_login ()
 	{
-		global $template_hook, $vbulletin;
+		global $template_hook, $vbulletin, $vboptions;
 		
-		// Is Social Login enabled?
-		if (!empty (OneAllSocialLogin_Toolbox::get_setting ('enable_social_login')))
+		// Registration page
+		if (isset ($vbulletin->templatecache ['register']))
 		{
-			$rand = rand (1, 99999) + 100000;
-			$providers = "\'".implode ("\', \'", OneAllSocialLogin_Toolbox::get_enabled_providers ())."\'";
+			// Build Template
+			$templater = vB_Template::create ('oneallsociallogin_social_login_registration');
+			$templater->register ('oasl_rand', (rand (1, 99999) + 100000));
+			$templater->register ('oasl_caption', OneAllSocialLogin_Toolbox::get_setting ('social_login_reg_caption'));
+			$templater->register ('oasl_custom_css', '');
+			$templater->register ('oasl_callback_url', ($vbulletin->options ['bburl'] . '/oneallsociallogin/callback.php'));
+			$templater->register ('oasl_providers', implode ("', '", OneAllSocialLogin_Toolbox::get_enabled_providers ()));
 			
-			$form = <<<HTML
-
-<h2 class="blockhead">Register with a social network</h2>
-<div class="blockbody formcontrols">
-	<div class="section">
-		<div class="blockrow">
-			<!-- OneAll.com / Social Login for vBulletin -->
-			<div id="oasl_providers_$rand" />
-			<script type="text/javascript">
-				var _oneall = _oneall || [];
-				_oneall.push(
-					[\'social_login\', \'set_providers\', [$providers]],
-					[\'social_login\', \'set_callback_uri\', \'{vb:raw vboptions.frontendurl}/oneallsociallogin/callback.php?origin=\' + encodeURIComponent (window.location.href)],
-					[\'social_login\', \'set_custom_css_uri\', ((("https:" == document.location.protocol) ? "https://secure" : "http://public") + \'.oneallcdn.com/css/api/socialize/themes/vbulletin/default.css\')],
-					[\'social_login\', \'do_render_ui\', \'oasl_providers_$rand\']
-				);
-			</script>
-		</div>
-	</div>
-</div>
-</div>
-<br />
-HTML;
+			// Retrieve contents (single-quotes break eval, we need to escape them)
+			$contents = $templater->render ();
+			$contents = str_replace ("'", "\'", $contents);
 			
-			if (isset ($vbulletin->templatecache ['register']))
+			// Inject it to the template
+			$vbulletin->templatecache ['register'] = str_replace ('<form', $contents . '<form', $vbulletin->templatecache ['register']);
+		}
+		
+		// Header
+		if (isset ($vbulletin->templatecache ['header']))
+		{
+			// Build Template
+			$templater = vB_Template::create ('oneallsociallogin_social_login_top');
+			$templater->register ('oasl_rand', (rand (1, 99999) + 100000));
+			$templater->register ('oasl_caption', OneAllSocialLogin_Toolbox::get_setting ('social_login_top_caption'));
+			$templater->register ('oasl_custom_css', '');
+			$templater->register ('oasl_callback_url', ($vbulletin->options ['bburl'] . '/oneallsociallogin/callback.php'));
+			$templater->register ('oasl_providers', implode ("', '", OneAllSocialLogin_Toolbox::get_enabled_providers ()));
+			
+			// Retrieve contents (single-quotes break eval, we need to escape them)
+			$contents = $templater->render ();
+			$contents = str_replace ("'", "\'", $contents);
+			
+			// Replace
+			if (($tmp = preg_replace ('/<\s*ul.+nouser[^>]+>/i', '\\0' . $contents, $vbulletin->templatecache ['header'])) !== null)
 			{
-				$vbulletin->templatecache ['register'] = str_replace ('<form', $form . '<form', $vbulletin->templatecache ['register']);
+				$vbulletin->templatecache ['header'] = $tmp;
 			}
 		}
+		
+		// Generic
+		$templater = vB_Template::create ('oneallsociallogin_social_login');
+		$templater->register ('oasl_rand', (rand (1, 99999) + 100000));
+		$templater->register ('oasl_custom_css', '');
+		$templater->register ('oasl_callback_url', ($vbulletin->options ['bburl'] . '/oneallsociallogin/callback.php'));
+		$templater->register ('oasl_providers', implode ("', '", OneAllSocialLogin_Toolbox::get_enabled_providers ()));
+		$contents = $templater->render ();
+		
+		// {vb:raw vboptions.oneallsociallogin}
+		$vbulletin->options ['oneallsociallogin_login'] = $contents;
 	}
 	
 	// Include CSS
@@ -76,23 +142,19 @@ HTML;
 		// Get the hooks
 		global $template_hook, $vboptions;
 		
-		// Is the product enabled?
-		if (OneAllSocialLogin_Toolbox::is_product_enabled ())
+		// Build the code
+		$code = array();
+		$code [] = '<!-- OneAll.com / Social Login for vBulletin -->';
+		$code [] = '<link href="' . $vboptions [bburl] . '/oneallsociallogin/include/assets/css/frontend.css" rel="stylesheet" type="text/css" />';
+		
+		// Make sure we have such a hook
+		if (!isset ($template_hook ['headinclude_css']))
 		{
-			// Build the code
-			$code = array();
-			$code [] = '<!-- OneAll.com / Social Login for vBulletin -->';
-			$code [] = '<link href="' . $vboptions [bburl] . '/oneallsociallogin/include/assets/css/frontend.css" rel="stylesheet" type="text/css" />"';
-			
-			// Make sure we have such a hook
-			if (!isset ($template_hook ['headinclude_css']))
-			{
-				$template_hook ['headinclude_css'] = '';
-			}
-			
-			// Add library
-			$template_hook ['headinclude_css'] .= "\n" . implode ("\n", $code);
+			$template_hook ['headinclude_css'] = '';
 		}
+		
+		// Add library
+		$template_hook ['headinclude_css'] .= "\n" . implode ("\n", $code);
 	}
 	
 	// Include JavaScript
@@ -101,48 +163,58 @@ HTML;
 		// Get the hooks
 		global $template_hook;
 		
-		// Is the product enabled?
-		if (OneAllSocialLogin_Toolbox::is_product_enabled ())
+		// Read API Subdomain
+		$api_subdomain = OneAllSocialLogin_Toolbox::get_setting ('api_subdomain');
+		
+		// Make sure it's not empty
+		if (!empty ($api_subdomain))
 		{
-			// Read API Subdomain
-			$api_subdomain = OneAllSocialLogin_Toolbox::get_setting ('api_subdomain');
+			// Build Template
+			$templater = vB_Template::create ('oneallsociallogin_library');
+			$templater->register ('oasl_subdomain', $api_subdomain);
 			
-			// Make sure it's not empty
-			if (!empty ($api_subdomain))
+			// Retrieve contents (single-quotes break eval, we need to escape them)
+			$contents = $templater->render ();
+			$contents = str_replace ("'", "\'", $contents);
+			
+			// Make sure we have such a hook
+			if (!isset ($template_hook ['headinclude_javascript']))
 			{
-				// Build the code
-				$code = array();
-				$code [] = "<!-- OneAll.com / Social Login for vBulletin -->";
-				$code [] = "<script type=\"text/javascript\">";
-				$code [] = "<!--";
-				$code [] = "  var oal = document.createElement('script'); oal.type = 'text/javascript'; oal.async = true;";
-				$code [] = "  oal.src = '//$api_subdomain.api.oneall.com/socialize/library.js';";
-				$code [] = "  var oas = document.getElementsByTagName('script')[0]; oas.parentNode.insertBefore(oal, oas);";
-				$code [] = "// --";
-				$code [] = "</script>";
-				
-				// Make sure we have such a hook
-				if (!isset ($template_hook ['headinclude_javascript']))
-				{
-					$template_hook ['headinclude_javascript'] = '';
-				}
-				
-				// Add library
-				$template_hook ['headinclude_javascript'] .= "\n" . implode ("\n", $code);
+				$template_hook ['headinclude_javascript'] = '';
 			}
+			
+			// Add library
+			$template_hook ['headinclude_javascript'] .= $contents;
 		}
 	}
 	
 	// Parse Templates
 	public static function parse_templates ()
 	{
-		// Include the JavaScript
-		self::hook_include_frontend_js ();
+		// Which services are enabled?
+		$use_social_login = OneAllSocialLogin_Toolbox::get_setting ('enable_social_login');
+		$use_social_link = OneAllSocialLogin_Toolbox::get_setting ('enable_social_link');
 		
-		// Include the CSS
-		self::hook_include_frontend_css ();
-		
-		// Include Social Login
-		self::hook_include_social_login ();
+		// At least one should be enabled
+		if (!empty ($use_social_login) or !empty ($use_social_link))
+		{
+			// Include the JavaScript
+			self::hook_include_frontend_js ();
+			
+			// Include the CSS
+			self::hook_include_frontend_css ();
+			
+			// Is Social Login enabled?
+			if (!empty ($use_social_login))
+			{
+				self::hook_include_social_login ();
+			}
+			
+			// Is Social Link enabled?
+			if (!empty ($use_social_link))
+			{
+				self::hook_include_social_link ();
+			}
+		}
 	}
 }
