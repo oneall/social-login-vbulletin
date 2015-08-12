@@ -36,7 +36,7 @@ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 		- Go to "Product & Hooks \ Manage Products",
 		- Click on "Add/Import Product",
 		- Put this text in "OR import the XML file from your server":
-	   		./packages/oneallsociallogin/xml/product_oneallsociallogin.xml
+	   		./includes/xml/product-oneallsociallogin.xml
    		- Tick "Allow Overwrite: Yes"
    		- Click on "Import"
    		
