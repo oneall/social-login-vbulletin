@@ -27,41 +27,34 @@ class OneAllSocialLogin_Toolbox
 {
 	// Cache
 	public static $settings_cache = null;
-	
 
 	/**
-	 * Return all our settings.
+	 * Return all settings.
 	 */
-	public static function get_settings ($remove_prefix = false)
+	public static function get_settings ()
 	{
 		global $vbulletin;
 		
-		// Setup?
-		if ( ! is_array (self::$settings_cache))
-		{		
-			// Setup
-			self::$settings_cache = array ();
-			self::$settings_cache['prefix_on'] = array();
-			self::$settings_cache['prefix_off'] = array();
+		// Do we have the settings in the cache ?
+		if (!is_array (self::$settings_cache))
+		{
+			// Build the cache
+			self::$settings_cache = array();
 			
 			// Loop through results
-			$results = $vbulletin->db->query_read ("SELECT varname, value FROM " . TABLE_PREFIX . "setting WHERE grouptitle LIKE 'oneallsociallogin%'");
-			while ( $setting = $vbulletin->db->fetch_array ($results) )
-			{				
-				// Prefixed
-				self::$settings_cache['prefix_on'] [$setting ['varname']] = $setting ['value'];
-
+			$settings = $vbulletin->db->query_read ("SELECT varname, value FROM " . TABLE_PREFIX . "setting WHERE grouptitle LIKE 'oneallsociallogin%'");
+			while ( $setting = $vbulletin->db->fetch_array ($settings) )
+			{
 				// Without Prefix
 				if (preg_match ('/^oneallsociallogin_([a-z0-9\_]+)$/i', $setting ['varname'], $matches))
 				{
-					self::$settings_cache['prefix_off'][$matches [1]] =  $setting ['value'];
-				}				
-				
+					self::$settings_cache [$matches [1]] = $setting ['value'];
+				}
 			}
 		}
 		
 		// Done
-		return self::$settings_cache[('prefix_' . ($remove_prefix ? 'off' : 'on'))];
+		return self::$settings_cache;
 	}
 
 	/**
@@ -70,7 +63,7 @@ class OneAllSocialLogin_Toolbox
 	public static function get_setting ($varname)
 	{
 		// Read settings
-		$settings = self::get_settings (true);
+		$settings = self::get_settings ();
 		
 		// Return value
 		return (isset ($settings [$varname]) ? $settings [$varname] : null);
@@ -94,18 +87,17 @@ class OneAllSocialLogin_Toolbox
 		return $disabled_functions;
 	}
 
-
 	/**
-	 * Get the list of enabled providers
+	 * Return the list of enabled providers
 	 */
 	public static function get_enabled_providers ()
 	{
 		// Providers
 		$providers = array();
-	
+		
 		// Read the settings
-		$settings = self::get_settings (true);
-	
+		$settings = self::get_settings ();
+		
 		// Build list
 		foreach ($settings as $key => $value)
 		{
@@ -114,22 +106,21 @@ class OneAllSocialLogin_Toolbox
 				$providers [] = $matches [1];
 			}
 		}
-	
+		
 		// Done
 		return $providers;
 	}
-	
-	
+
 	/**
-	 * Check if the current page is opened over http(s).
+	 * Return the protocol of the request.
 	 */
-	public static function is_https_on ()
+	public static function get_request_protocol ()
 	{
 		if (!empty ($_SERVER ['SERVER_PORT']))
 		{
 			if (trim ($_SERVER ['SERVER_PORT']) == '443')
 			{
-				return true;
+				return 'https';
 			}
 		}
 		
@@ -137,7 +128,7 @@ class OneAllSocialLogin_Toolbox
 		{
 			if (strtolower (trim ($_SERVER ['HTTP_X_FORWARDED_PROTO'])) == 'https')
 			{
-				return true;
+				return 'https';
 			}
 		}
 		
@@ -145,17 +136,17 @@ class OneAllSocialLogin_Toolbox
 		{
 			if (strtolower (trim ($_SERVER ['HTTPS'])) == 'on' or trim ($_SERVER ['HTTPS']) == '1')
 			{
-				return true;
+				return 'https';
 			}
 		}
 		
-		return false;
+		return 'http';
 	}
 
 	/**
-	 * Return the current url.
+	 * Return the url of the request.
 	 */
-	function get_current_url ($remove_vars = array ('oa_social_login_login_token', 'sid'))
+	function get_request_url ($remove_vars = array ('oa_social_login_login_token', 'sid'))
 	{
 		global $request;
 		
@@ -171,14 +162,7 @@ class OneAllSocialLogin_Toolbox
 		$request_uri = htmlspecialchars_decode ($request_uri);
 		
 		// Extract Protocol
-		if (self::is_https_on ())
-		{
-			$request_protocol = 'https';
-		}
-		else
-		{
-			$request_protocol = 'http';
-		}
+		$request_protocol = self::get_request_protocol ();
 		
 		// Extract Host
 		if (strlen (trim ($_SERVER ['HTTP_X_FORWARDED_HOST'])) > 0)
@@ -210,7 +194,10 @@ class OneAllSocialLogin_Toolbox
 		}
 		
 		// Remove standard ports
-		$request_port = (!in_array ($request_port, array(80, 443)) ? $request_port : '');
+		$request_port = (!in_array ($request_port, array(
+			80,
+			443 
+		)) ? $request_port : '');
 		
 		// Build url
 		$current_url = $request_protocol . '://' . $request_host . (!empty ($request_port) ? (':' . $request_port) : '') . $request_uri;
@@ -260,13 +247,13 @@ class OneAllSocialLogin_Toolbox
 		$userpassword = self::generate_hash (10);
 		
 		// Setup user
-		$user = &datamanager_init('User', $vbulletin, ERRTYPE_ARRAY);		
+		$user = &datamanager_init ('User', $vbulletin, ERRTYPE_ARRAY);
 		$user->set ('email', $user_data ['user_email']);
 		$user->set ('username', $user_data ['user_login_clean']);
-		$user->set ('password', $userpassword);		
+		$user->set ('password', $userpassword);
 		$user->set ('usergroupid', $usergroupid);
-		$user->set ('languageid', $vbulletin->userinfo['languageid']);
-		$user->set_usertitle('', false, $vbulletin->usergroupcache[$usergroupid], false, false);		
+		$user->set ('languageid', $vbulletin->userinfo ['languageid']);
+		$user->set_usertitle ('', false, $vbulletin->usergroupcache [$usergroupid], false, false);
 		$user->set ('ipaddress', IPADDRESS);
 		$user->pre_save ();
 		
@@ -275,17 +262,17 @@ class OneAllSocialLogin_Toolbox
 		{
 			// Save
 			$userid = $user->save ();
-				
+			
 			// Success
 			if ($userid)
 			{
 				// Set Rang
-				$userinfo = fetch_userinfo($userid,0,0,0,true);
-				$userdata_rank = &datamanager_init('User', $vbulletin, ERRTYPE_SILENT);
-				$userdata_rank->set_existing($userinfo);
-				$userdata_rank->set('posts', 0);
-				$userdata_rank->save();			
-			
+				$userinfo = fetch_userinfo ($userid, 0, 0, 0, true);
+				$userdata_rank = &datamanager_init ('User', $vbulletin, ERRTYPE_SILENT);
+				$userdata_rank->set_existing ($userinfo);
+				$userdata_rank->set ('posts', 0);
+				$userdata_rank->save ();
+				
 				// Done
 				return array(
 					'userid' => $userid,
@@ -307,17 +294,17 @@ class OneAllSocialLogin_Toolbox
 		
 		// Check format
 		if (is_array ($social_data) && (!empty ($social_data ['user_thumbnail']) || !empty ($social_data ['user_picture'])))
-		{		
+		{
 			// User Info
-			$userinfo = fetch_userinfo($userid,0,0,0,true);
+			$userinfo = fetch_userinfo ($userid, 0, 0, 0, true);
 			
 			// Init User datamanager
 			$userdata = &datamanager_init ('User', $vbulletin, ERRTYPE_STANDARD);
 			$userdata->set_existing ($userinfo);
-				
+			
 			// Can we upload avatars ?
-			if ($vbulletin->bf_ugp_genericpermissions['canprofilepic'])
-			{		
+			if ($vbulletin->bf_ugp_genericpermissions ['canprofilepic'])
+			{
 				// Toolbox
 				require_once (DIR . '/oneallsociallogin/include/communication.php');
 				
@@ -332,7 +319,7 @@ class OneAllSocialLogin_Toolbox
 				
 				// Success?
 				if (is_object ($api_result) && property_exists ($api_result, 'http_code') && $api_result->http_code == 200)
-				{										
+				{
 					// Width
 					$min_width = 1;
 					$max_width = 9999;
@@ -342,9 +329,9 @@ class OneAllSocialLogin_Toolbox
 					$max_height = 9999;
 					
 					// Get avatar max sizes
-					if (! empty ($userinfo['usergroupid']))
+					if (!empty ($userinfo ['usergroupid']))
 					{
-						$sql = "SELECT usergroupid, avatarmaxwidth, avatarmaxheight FROM " . TABLE_PREFIX . "usergroup WHERE usergroupid  = '" . intval ($userinfo['usergroupid']) . "'";
+						$sql = "SELECT usergroupid, avatarmaxwidth, avatarmaxheight FROM " . TABLE_PREFIX . "usergroup WHERE usergroupid  = '" . intval ($userinfo ['usergroupid']) . "'";
 						$result = $vbulletin->db->query_first ($sql);
 						if (is_array ($result) && !empty ($result ['usergroupid']))
 						{
@@ -358,17 +345,17 @@ class OneAllSocialLogin_Toolbox
 								$max_height = $result ['avatarmaxheight'];
 							}
 						}
-					}												
-											
+					}
+					
 					// File data
 					$file_data = $api_result->http_data;
-										
+					
 					// Temporary filename
-					$file_tmp_name = ($vbulletin->options['tmppath'] . '/vbupload-' . $userinfo['userid'] . '-' . time() . '-'. rand (1000, 9999) .'.tmp');
+					$file_tmp_name = ($vbulletin->options ['tmppath'] . '/vbupload-' . $userinfo ['userid'] . '-' . time () . '-' . rand (1000, 9999) . '.tmp');
 					
 					// Save file
 					if (($fp = @fopen ($file_tmp_name, 'wb')) !== false)
-					{				
+					{
 						// Write file
 						$avatar_size = fwrite ($fp, $file_data);
 						fclose ($fp);
@@ -384,16 +371,16 @@ class OneAllSocialLogin_Toolbox
 						
 						// Check image size and type
 						if ($width > $min_width && $height > $min_height && isset ($file_exts [$type]))
-						{						
+						{
 							// File extension
 							$file_ext = $file_exts [$type];
 							
 							// Check if we can resize the image if needd
 							if (function_exists ('imagecreatetruecolor') && function_exists ('imagecopyresampled'))
-							{							
+							{
 								// Check if we need to resize
 								if ($width > $max_width || $height > $max_height)
-								{								
+								{
 									// Keep original size
 									$orig_height = $height;
 									$orig_width = $width;
@@ -441,13 +428,13 @@ class OneAllSocialLogin_Toolbox
 							
 							// Final path
 							$avatar_name = "avatar" . $userid . "_" . ($userinfo ['avatarrevision'] + 1) . "." . $file_exts [$type];
-							$avatar_full_name = rtrim ($vbulletin->options['avatarpath'], ' /') . '/' . $avatar_name;
+							$avatar_full_name = rtrim ($vbulletin->options ['avatarpath'], ' /') . '/' . $avatar_name;
 							
 							// Move file
 							if (@copy ($file_tmp_name, $avatar_full_name))
-							{								
+							{
 								// Save
-								$userpic = &datamanager_init('Userpic_Avatar', $vbulletin, ERRTYPE_STANDARD, 'userpic');
+								$userpic = &datamanager_init ('Userpic_Avatar', $vbulletin, ERRTYPE_STANDARD, 'userpic');
 								$userpic->set ('dateline', TIMENOW);
 								$userpic->set ('userid', $userid);
 								$userpic->set ('filename', $avatar_name);
@@ -580,7 +567,7 @@ class OneAllSocialLogin_Toolbox
 	}
 
 	/**
-	 * Generates a session token for the given user_id.
+	 * Get the userid for the given session token.
 	 */
 	public static function get_user_for_session_token ($session_token, $read_once = true)
 	{
@@ -594,18 +581,18 @@ class OneAllSocialLogin_Toolbox
 			// Remove the entry
 			if ($read_once)
 			{
-				$sql = "DELETE FROM " . TABLE_PREFIX . "oasl_session WHERE oasl_sessionid = '" . intval ($result['oasl_sessionid']) . "'";
+				$sql = "DELETE FROM " . TABLE_PREFIX . "oasl_session WHERE oasl_sessionid = '" . intval ($result ['oasl_sessionid']) . "'";
 				$vbulletin->db->query ($sql);
 			}
 			
-			// Done			
+			// Done
 			return $result ['userid'];
 		}
 		
 		// Not found.
 		return false;
 	}
-	
+
 	/**
 	 * Generates a session token for the given user_id.
 	 */

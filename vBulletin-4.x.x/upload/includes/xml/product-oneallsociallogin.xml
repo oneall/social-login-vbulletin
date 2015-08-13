@@ -80,8 +80,7 @@
 	</codes>
 	
 
-	<templates>		
-	
+	<templates>			
 		<template name="oneallsociallogin_social_login" templatetype="template" date="0" username="OneAll" version="1.0.0">
 			<![CDATA[			
 				<vb:if condition="$bbuserinfo['userid'] == 0">		
@@ -106,8 +105,7 @@
 					</vb:if>	
 				</vb:if>	
 			]]>
-		</template>	
-		
+		</template>			
 		<template name="oneallsociallogin_social_login_registration" templatetype="template" date="0" username="OneAll" version="1.0.0">
 			<![CDATA[		
 				<div class="oneall_social_login_registration">
@@ -139,8 +137,7 @@
 					</div>
 				</div>
 			]]>
-		</template>
-		
+		</template>		
 		<template name="oneallsociallogin_social_login_top" templatetype="template" date="0" username="OneAll" version="1.0.0">
 			<![CDATA[		
 				<vb:if condition="$oasl_providers != ''">
@@ -163,8 +160,7 @@
 					</vb:if>
 				</vb:if>
 			]]>
-		</template>
-		
+		</template>		
 		<template name="oneallsociallogin_social_link" templatetype="template" date="0" username="OneAll" version="1.0.0">
 			<![CDATA[		
 				<vb:if condition="$bbuserinfo['userid'] != 0">
@@ -190,8 +186,7 @@
 					</vb:if>	
 				</vb:if>
 			]]>
-		</template>
-		
+		</template>		
 		<template name="oneallsociallogin_social_link_profile" templatetype="template" date="0" username="OneAll" version="1.0.0">
 			<![CDATA[		
 				<vb:if condition="$bbuserinfo['userid'] != 0">
@@ -226,8 +221,7 @@
 					</div>
 				</vb:if>
 			]]>
-		</template>
-			
+		</template>			
 		<template name="oneallsociallogin_library" templatetype="template" date="0" username="OneAll" version="1.0.0">
 			<![CDATA[		
 				<vb:if condition="$oasl_subdomain != ''">
@@ -242,8 +236,7 @@
 				</vb:if>
 			]]>
 		</template>	
-	</templates>
-	
+	</templates>	
 	<plugins>
     	<plugin active="1" executionorder="1">
 			<title>Social Login Integration</title>
@@ -266,6 +259,7 @@
 	</plugins>		
 
 	<phrases>		
+	
 		<phrasetype name="GLOBAL" fieldname="global">		
 			<phrase name="oneallsociallogin" date="0" username="OneAll" version="1.0.0"><![CDATA[OneAll]]></phrase>
 			<phrase name="oneallsociallogin_title" date="0" username="OneAll" version="1.0.0"><![CDATA[OneAll Social Login]]></phrase>
@@ -294,8 +288,8 @@
 			<phrase name="setting_oneallsociallogin_enable_social_link_title" username="OneAll" version="1.0.0"><![CDATA[Enable Social Link?]]></phrase>
 			<phrase name="setting_oneallsociallogin_enable_social_link_desc" username="OneAll" version="1.0.0"><![CDATA[If enabled, users can connect their social network accounts to their existing vBulletin account.]]></phrase>						
 		
-			<phrase name="setting_oneallsociallogin_social_link_caption_title" username="OneAll" version="1.0.0"><![CDATA[Social Link Caption]]></phrase>										
-			<phrase name="setting_oneallsociallogin_social_link_caption_desc" username="OneAll"	version="1.0.0"><![CDATA[This title is displayed above the Social Link icons.]]></phrase>						
+			<phrase name="setting_oneallsociallogin_social_link_caption_title" username="OneAll" version="1.0.0"><![CDATA[Profile Settings Caption]]></phrase>										
+			<phrase name="setting_oneallsociallogin_social_link_caption_desc" username="OneAll"	version="1.0.0"><![CDATA[This title is displayed above the Social Link icons in the users' profile settings.]]></phrase>						
 						
 			<phrase name="setting_oneallsociallogin_enable_auto_link_title" username="OneAll" version="1.0.0"><![CDATA[Automatically link social network accounts to existing user accounts? ]]></phrase>
 			<phrase name="setting_oneallsociallogin_enable_auto_link_desc" username="OneAll" version="1.0.0"><![CDATA[If enabled, social network accounts with a verified email address will be linked to existing user accounts having the same email address.]]></phrase>	
@@ -571,12 +565,14 @@
 				<datatype>free</datatype>
 				<optioncode>
 					<![CDATA[		
-						<label for=\"rb_setting[oneallsociallogin_api_port]443\">
-							<input type=\"radio\" name=\"setting[oneallsociallogin_api_port]\" id=\"oneallsociallogin_api_port_443\" value=\"443\" " . ($setting['value'] == '443' ? ' checked="checked"' : '') . " />443 - Using port 443 is recommended but you might have to install OpenSSL on your server.
-						</label><br />
-						<label for=\"rb_setting[oneallsociallogin_api_port]80\">
-							<input type=\"radio\" name=\"setting[oneallsociallogin_api_port]\" id=\"oneallsociallogin_api_port_80\" value=\"80\" " . ($setting['value'] == '80' ? ' checked="checked"' : '') . " />80 - Using port 80 is a bit faster, does not need OpenSSL but is less secure.
-						</label>
+						<div class=\"smallfont\">
+							<label for=\"rb_setting[oneallsociallogin_api_port]443\">
+								<input type=\"radio\" name=\"setting[oneallsociallogin_api_port]\" id=\"oneallsociallogin_api_port_443\" value=\"443\" " . ($setting['value'] == '443' ? ' checked="checked"' : '') . " />443 - Using port 443 is recommended but you might have to install OpenSSL on your server.
+							</label><br />
+							<label for=\"rb_setting[oneallsociallogin_api_port]80\">
+								<input type=\"radio\" name=\"setting[oneallsociallogin_api_port]\" id=\"oneallsociallogin_api_port_80\" value=\"80\" " . ($setting['value'] == '80' ? ' checked="checked"' : '') . " />80 - Using port 80 is a bit faster, does not need OpenSSL but is less secure.
+							</label>
+						</div>
 					]]>
 				</optioncode>
 				<defaultvalue>443</defaultvalue>
@@ -585,12 +581,14 @@
 				<datatype>free</datatype>
 				<optioncode>
 					<![CDATA[
-						<label for=\"oneallsociallogin_api_connector_curl\">
-							<input type=\"radio\" name=\"setting[oneallsociallogin_api_connector]\" id=\"oneallsociallogin_api_connector_curl\" value=\"curl\" " . ($setting['value'] == 'curl' ? ' checked="checked"' : '') . " /> CURL - Using CURL is recommended but it might be disabled on some servers.
-						</label><br />
-						<label for=\"rb_setting[oneallsociallogin_api_connector]fsockopen\">
-							<input type=\"radio\" name=\"setting[oneallsociallogin_api_connector]\" id=\"oneallsociallogin_api_connector_fsockopen\"  value=\"fsockopen\" " . ($setting['value'] == 'fsockopen' ? ' checked="checked"' : '') . " /> FSOCKOPEN - Select FSOCKOPEN if you encounter any problems with CURL.
-						</label>
+						<div class=\"smallfont\">
+							<label for=\"oneallsociallogin_api_connector_curl\">
+								<input type=\"radio\" name=\"setting[oneallsociallogin_api_connector]\" id=\"oneallsociallogin_api_connector_curl\" value=\"curl\" " . ($setting['value'] == 'curl' ? ' checked="checked"' : '') . " /> CURL - Using CURL is recommended but it might be disabled on some servers.
+							</label><br />
+							<label for=\"rb_setting[oneallsociallogin_api_connector]fsockopen\">
+								<input type=\"radio\" name=\"setting[oneallsociallogin_api_connector]\" id=\"oneallsociallogin_api_connector_fsockopen\"  value=\"fsockopen\" " . ($setting['value'] == 'fsockopen' ? ' checked="checked"' : '') . " /> FSOCKOPEN - Select FSOCKOPEN if you encounter any problems with CURL.
+							</label>
+						</div>
 					]]>
 				</optioncode>
 				<defaultvalue>curl</defaultvalue>
@@ -894,7 +892,6 @@
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
 			</setting>			
-		</settinggroup>
-		
+		</settinggroup>		
 	</options>
 </product>

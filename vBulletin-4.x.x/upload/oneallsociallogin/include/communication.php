@@ -27,7 +27,7 @@ class OneAllSocialLogin_Communication
 {
 	// User agent for API requests
 	const USER_AGENT = 'User-Agent: SocialLogin VBulletin4 (+http://www.oneall.com/)';
-	
+
 	/**
 	 * Send an API request by using the given handler
 	 */
@@ -152,7 +152,7 @@ class OneAllSocialLogin_Communication
 		// Create HTTP request
 		$defaults = array(
 			'Host' => "Host: $host",
-			'User-Agent' => self::USER_AGENT
+			'User-Agent' => self::USER_AGENT 
 		);
 		
 		// Enable basic authentication
@@ -284,7 +284,10 @@ class OneAllSocialLogin_Communication
 			$result->http_error = null;
 			
 			// Check if we have a redirection header
-			if (in_array ($result->http_code, array(301, 302)) && $num_redirects < 4)
+			if (in_array ($result->http_code, array(
+				301,
+				302 
+			)) && $num_redirects < 4)
 			{
 				// Make sure we have http headers
 				if (is_array ($result->http_headers))

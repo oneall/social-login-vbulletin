@@ -91,7 +91,7 @@ while ( $phrase = $db->fetch_array ($phrases) )
 }
 
 // Action
-$action = $arguments ['do'];
+$action = strtolower (trim ($arguments ['do']));
 
 // //////////////////////////////////////////////////////////////////////////////////
 // Save Settings
@@ -151,59 +151,35 @@ if ($action == 'display')
 	// OneAll Social Login
 	print_cp_header ($vbphrase ['oneallsociallogin_title']);
 	
+	// JavaScript
 	echo '<script type="text/javascript" src=" ../clientscript/vbulletin_cpoptions_scripts.js?v=' . SIMPLE_VERSION . '"></script>';
 	echo '<script type="text/javascript" src="../oneallsociallogin/include/assets/js/jquery-1.11.3.min.js"></script>';
 	echo '<script type="text/javascript">var _j = jQuery.noConflict();</script';
 	
-	// Display links to settinggroups and create settingscache
-	$settingscache = array();
-	$options = array(
-		'[all]' => '-- ' . $vbphrase ['show_all_settings'] . ' --' 
-	);
-	$lastgroup = '';
+	// Settings Cache
+	$settingscache = array();	
 	
+	// Read Settings
 	$settings = $db->query_read_slave ("
 		SELECT setting.*, settinggroup.grouptitle
 		FROM " . TABLE_PREFIX . "settinggroup AS settinggroup
 		LEFT JOIN " . TABLE_PREFIX . "setting AS setting USING(grouptitle)
-		WHERE settinggroup.product LIKE '%oneall%'
-			AND settinggroup.displayorder <> 0
+		WHERE settinggroup.product LIKE '%oneall%' AND settinggroup.displayorder <> 0
 		ORDER BY settinggroup.displayorder, setting.displayorder
-	");
-	
-	if (empty ($vbulletin->GPC ['dogroup']) and $vbulletin->GPC ['expand'])
+	");	
+
+	while ( $setting = $db->fetch_array ($settings) )
 	{
-		while ( $setting = $db->fetch_array ($settings) )
+		// Settings
+		$settingscache [$setting['grouptitle']] [$setting['varname']] = $setting;
+
+		// Group Titles
+		if ( ! isset ($lastgroup) || ($setting ['grouptitle'] != $lastgroup))
 		{
-			$settingscache ["$setting[grouptitle]"] ["$setting[varname]"] = $setting;
-			if ($setting ['grouptitle'] != $lastgroup)
-			{
-				$grouptitlecache ["$setting[grouptitle]"] = $setting ['grouptitle'];
-				$grouptitle = $settingphrase ["settinggroup_$setting[grouptitle]"];
-			}
-			$options ["$grouptitle"] ["$setting[varname]"] = $settingphrase ["setting_$setting[varname]_title"];
-			$lastgroup = $setting ['grouptitle'];
+			$grouptitlecache [$setting['grouptitle']] = $setting ['grouptitle'];			
 		}
-		
-		$altmode = 0;
-		$linktext = & $vbphrase ['collapse_setting_groups'];
-	}
-	else
-	{
-		while ( $setting = $db->fetch_array ($settings) )
-		{
-			$settingscache ["$setting[grouptitle]"] ["$setting[varname]"] = $setting;
-			if ($setting ['grouptitle'] != $lastgroup)
-			{
-				$grouptitlecache ["$setting[grouptitle]"] = $setting ['grouptitle'];
-				$options ["$setting[grouptitle]"] = $settingphrase ["settinggroup_$setting[grouptitle]"];
-			}
-			$lastgroup = $setting ['grouptitle'];
-		}
-		
-		$altmode = 1;
-		$linktext = & $vbphrase ['expand_setting_groups'];
-	}
+		$lastgroup = $setting ['grouptitle'];
+	}	
 	$db->free_result ($settings);
 	
 	// Form Header
@@ -215,9 +191,9 @@ if ($action == 'display')
 	
 	// Settings groups
 	$groups = array();
+	$groups [] = 'api';
 	$groups [] = 'login';
 	$groups [] = 'link';
-	$groups [] = 'api';
 	$groups [] = 'providers';
 	
 	// Print Settings Tables

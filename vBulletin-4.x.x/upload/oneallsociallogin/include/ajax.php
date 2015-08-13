@@ -107,9 +107,12 @@ class OneAllSocialLogin_Ajax
 		
 		// Connection to the API
 		$api_resource_url = ($api_port == 80 ? 'http' : 'https') . '://' . $api_domain . '/tools/ping.json';
-	
+		
 		// Get connection details
-		$result = OneAllSocialLogin_Communication::do_api_request ($api_connector, $api_resource_url, array('api_key' => $api_key, 'api_secret' => $api_secret), 15);
+		$result = OneAllSocialLogin_Communication::do_api_request ($api_connector, $api_resource_url, array(
+			'api_key' => $api_key,
+			'api_secret' => $api_secret 
+		), 15);
 		
 		// Parse result
 		if (is_object ($result) and property_exists ($result, 'http_code') and property_exists ($result, 'http_data'))

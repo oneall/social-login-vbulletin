@@ -56,7 +56,7 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 	require_once (DIR . '/oneallsociallogin/include/toolbox.php');
 	
 	// Read Settings
-	$oasl_settings = OneAllSocialLogin_Toolbox::get_settings (true);
+	$oasl_settings = OneAllSocialLogin_Toolbox::get_settings ();
 	
 	// Is Social Login enabled?
 	if (!empty ($oasl_settings ['enable_social_login']))
