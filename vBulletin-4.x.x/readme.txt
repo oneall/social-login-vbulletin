@@ -26,19 +26,26 @@ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 		This is a vBulletin 4 mod, it will not work correctly in vBulletin 3 or 5.
 		
 		You can find the same extension for vBulletin 5 here:
-		http://docs.oneall.com/plugins/guide/social-login-vbulletin/
+		http://docs.oneall.com/plugins/guide/social-login-vbulletin/5/
 
 
 2. Installation / Upgrade
 
 		- Upload all files from the "upload" folder to your forums directory.
+		
 		- Login to your vBulletin Admin CP,
-		- Go to "Product & Hooks \ Manage Products",
+		
+		- Go to "Plugin & Products \ Manage Products",
+		
 		- Click on "Add/Import Product",
+		
 		- Put this text in "OR import the XML file from your server":
 	   		./includes/xml/product-oneallsociallogin.xml
+   		
    		- Tick "Allow Overwrite: Yes"
+   		
    		- Click on "Import"
    		
-   		A complete guide is available here:
-   		http://docs.oneall.loc/plugins/guide/social-login-vbulletin/
+   		
+More information is available here:
+http://docs.oneall.com/plugins/guide/social-login-vbulletin/4/
