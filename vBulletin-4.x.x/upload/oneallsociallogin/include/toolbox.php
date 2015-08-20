@@ -146,7 +146,7 @@ class OneAllSocialLogin_Toolbox
 	/**
 	 * Return the url of the request.
 	 */
-	function get_request_url ($remove_vars = array ('oa_social_login_login_token', 'sid'))
+	public static function get_request_url ($remove_vars = array ('oa_social_login_login_token', 'sid'))
 	{
 		global $request;
 		
@@ -194,10 +194,7 @@ class OneAllSocialLogin_Toolbox
 		}
 		
 		// Remove standard ports
-		$request_port = (!in_array ($request_port, array(
-			80,
-			443 
-		)) ? $request_port : '');
+		$request_port = (!in_array ($request_port, array(80, 443)) ? $request_port : '');
 		
 		// Build url
 		$current_url = $request_protocol . '://' . $request_host . (!empty ($request_port) ? (':' . $request_port) : '') . $request_uri;
@@ -755,7 +752,7 @@ class OneAllSocialLogin_Toolbox
 	/**
 	 * Generates a random hash of the given length
 	 */
-	protected function generate_hash ($length)
+	public static function generate_hash ($length)
 	{
 		$hash = '';
 		
@@ -776,7 +773,7 @@ class OneAllSocialLogin_Toolbox
 	/**
 	 * Generates a random email address
 	 */
-	protected function generate_random_email_address ()
+	public static function generate_random_email_address ()
 	{
 		do
 		{
