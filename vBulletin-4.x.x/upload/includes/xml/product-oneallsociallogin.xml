@@ -13,10 +13,11 @@
 			<installcode>
 				<![CDATA[		
 				
+					// Make sure the product exists
 					if (!file_exists(DIR . '/'. $vbulletin->config['Misc']['admincpdir'] .'/oneallsociallogin.php'))
 					{
 						print_dots_stop();
-						print_cp_message('Please upload the files that came with this product before installing or upgrading!');
+						print_cp_message('Please upload the files that came with <a href="http://docs.oneall.com/plugins/guide/social-login-vbulletin/4/" target="_blank">OneAll Social Login</a> before installing or upgrading!');					
 					}
 				
 					// User Mapping
