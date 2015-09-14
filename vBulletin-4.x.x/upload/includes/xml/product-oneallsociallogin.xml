@@ -13,7 +13,7 @@
 			<installcode>
 				<![CDATA[		
 				
-					if (!file_exists(DIR . '/admincp/oneallsociallogin.php'))
+					if (!file_exists(DIR . '/'. $vbulletin->config['Misc']['admincpdir'] .'/oneallsociallogin.php'))
 					{
 						print_dots_stop();
 						print_cp_message('Please upload the files that came with this product before installing or upgrading!');
