@@ -37,7 +37,7 @@ require_once ('./global.php');
 require_once (DIR . '/includes/adminfunctions_options.php');
 
 // ######################## CHECK ADMIN PERMISSIONS ######################
-if (!can_administer ('canadminsettings'))
+if (!can_administer ('canadminsettings') && !can_administer ('canadminplugins'))
 {
 	print_cp_no_permission ();
 }
