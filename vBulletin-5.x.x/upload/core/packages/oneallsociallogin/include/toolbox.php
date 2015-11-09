@@ -26,7 +26,7 @@
 class OneAllSocialLogin_Toolbox
 {
 	// Display Social Login?
-	public function display_plugin ()
+	public static function display_plugin ()
 	{
 		return ((strlen (trim (self::get_setting ('api_subdomain'))) > 0 && self::get_setting ('enable_social_login') == 1) ? true : false);
 	}
