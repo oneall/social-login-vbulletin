@@ -201,7 +201,7 @@ if ($action == 'display')
 		if ( ! empty ($setting['grouptitle']))
 		{
 			$grouptitle = $setting['grouptitle'];		
-			$varname = 	$setting['varname'];
+			$varname = $setting['varname'];
 			
 			$settingscache [$grouptitle] [$varname] = $setting;
 			$grouptitlecache [$grouptitle] = $grouptitle;
@@ -209,7 +209,7 @@ if ($action == 'display')
 		}
 	}
 	
-	// Form Action, vBulleting changed this in version 5.2 +
+	// Form Action, vBulletin changed this in version 5.2 +
 	if (defined ('FILE_VERSION') && (version_compare (FILE_VERSION, '5.2') > 0))
 	{
 		$form_action = './core/packages/oneallsociallogin/oneallsociallogin';
@@ -235,4 +235,3 @@ if ($action == 'display')
 	// Add submit buttons
 	print_submit_row ($vbphrase ['save']);
 }
-
