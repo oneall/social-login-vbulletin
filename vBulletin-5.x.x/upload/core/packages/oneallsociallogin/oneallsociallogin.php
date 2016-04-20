@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   	OneAll Social Login
- * @copyright 	Copyright 2013-2015 http://www.oneall.com - All rights reserved.
+ * @copyright 	Copyright 2013-2016 http://www.oneall.com - All rights reserved.
  * @license   	GNU/GPL 2 or later
  *
  * This program is free software; you can redistribute it and/or
@@ -82,7 +82,7 @@ if ($phrases and $phrases->valid ())
 }
 
 // Action
-$action = strtolower ($arguments ['do']);
+$action = (! empty ($arguments ['do']) ? strtolower ($arguments ['do']) : 'display');
 
 // //////////////////////////////////////////////////////////////////////////////////
 // Save Settings
@@ -145,6 +145,41 @@ if ($action == 'save')
 }
 
 // //////////////////////////////////////////////////////////////////////////////////
+// Autodetect API Connector
+// //////////////////////////////////////////////////////////////////////////////////
+if ($action == 'autodetect')
+{
+	// Ajax Tools
+	require_once ('include/ajax.php');
+
+	// AutoDetect
+	echo OneAllSocialLogin_Ajax::autodetect_api_connection_handler ();
+	exit ();
+}
+
+// //////////////////////////////////////////////////////////////////////////////////
+// Verify API Settings
+// //////////////////////////////////////////////////////////////////////////////////
+if ($action == 'verify')
+{
+	// Ajax Tools
+	require_once ('include/ajax.php');
+
+	// Arguments
+	$arguments = vB::getCleaner ()->cleanArray ($_REQUEST, array(
+		'api_connector' => vB_Cleaner::TYPE_STR,
+		'api_key' => vB_Cleaner::TYPE_STR,
+		'api_secret' => vB_Cleaner::TYPE_STR,
+		'api_port' => vB_Cleaner::TYPE_STR,
+		'api_subdomain' => vB_Cleaner::TYPE_STR
+	));
+
+	// AutoDetect
+	echo OneAllSocialLogin_Ajax::verify_api_settings ($arguments);
+	exit ();
+}
+
+// //////////////////////////////////////////////////////////////////////////////////
 // Display Options
 // //////////////////////////////////////////////////////////////////////////////////
 if ($action == 'display')
@@ -154,7 +189,7 @@ if ($action == 'display')
 	
 	echo '<script type="text/javascript" src="' . $vb_options ['bburl'] . '/clientscript/vbulletin_cpoptions_scripts.js?v=' . SIMPLE_VERSION . '"></script>';
 	
-	$settingscache = array();
+	$settingscache = (isset($settingscache) && is_array ($settingscache) ? $settingscache : array());
 	
 	$settings = vB::getDbAssertor ()->assertQuery ('vBForum:fetchSettingsByGroup', array(
 		vB_dB_Query::TYPE_KEY => vB_dB_Query::QUERY_METHOD,
@@ -163,13 +198,29 @@ if ($action == 'display')
 	
 	foreach ($settings as $setting)
 	{
-		$settingscache ["$setting[grouptitle]"] ["$setting[varname]"] = $setting;
-		$grouptitlecache ["$setting[grouptitle]"] = $setting ['grouptitle'];
-		$options ["$setting[grouptitle]"] = $settingphrase ["settinggroup_$setting[grouptitle]"];
+		if ( ! empty ($setting['grouptitle']))
+		{
+			$grouptitle = $setting['grouptitle'];		
+			$varname = 	$setting['varname'];
+			
+			$settingscache [$grouptitle] [$varname] = $setting;
+			$grouptitlecache [$grouptitle] = $grouptitle;
+			$options [$grouptitle] = $settingphrase ['settinggroup_'.$grouptitle];
+		}
 	}
 	
-	// Form Header
-	print_form_header ('oneallsociallogin', 'save');
+	// Form Action, vBulleting changed this in version 5.2 +
+	if (defined ('FILE_VERSION') && (version_compare (FILE_VERSION, '5.2') > 0))
+	{
+		$form_action = './core/packages/oneallsociallogin/oneallsociallogin';
+	}
+	else
+	{
+		$form_action = 'oneallsociallogin';
+	}
+	
+	// Header	
+	print_form_header ($form_action, 'save');
 	
 	// Add Hidden Fields
 	construct_hidden_code ('dogroup', $arguments ['dogroup']);
@@ -185,37 +236,3 @@ if ($action == 'display')
 	print_submit_row ($vbphrase ['save']);
 }
 
-// //////////////////////////////////////////////////////////////////////////////////
-// Autodetect API Connector
-// //////////////////////////////////////////////////////////////////////////////////
-if ($action == 'autodetect')
-{
-	// Ajax Tools
-	require_once ('include/ajax.php');
-	
-	// AutoDetect
-	echo OneAllSocialLogin_Ajax::autodetect_api_connection_handler ();
-	exit ();
-}
-
-// //////////////////////////////////////////////////////////////////////////////////
-// Verify API Settings
-// //////////////////////////////////////////////////////////////////////////////////
-if ($action == 'verify')
-{
-	// Ajax Tools
-	require_once ('include/ajax.php');
-	
-	// Arguments
-	$arguments = vB::getCleaner ()->cleanArray ($_REQUEST, array(
-		'api_connector' => vB_Cleaner::TYPE_STR,
-		'api_key' => vB_Cleaner::TYPE_STR,
-		'api_secret' => vB_Cleaner::TYPE_STR,
-		'api_port' => vB_Cleaner::TYPE_STR,
-		'api_subdomain' => vB_Cleaner::TYPE_STR 
-	));
-	
-	// AutoDetect
-	echo OneAllSocialLogin_Ajax::verify_api_settings ($arguments);
-	exit ();
-}
