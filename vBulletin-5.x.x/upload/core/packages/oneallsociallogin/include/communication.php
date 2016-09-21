@@ -26,7 +26,7 @@
 class OneAllSocialLogin_Communication
 {
 	// User agent for API requests
-	const USER_AGENT = 'SocialLogin/1.3 vBulletin/5.x (+http://www.oneall.com/)';
+	const USER_AGENT = 'SocialLogin/1.2.0 vBulletin/5.x (+http://www.oneall.com/)';
 	
 	/**
 	 * Send an API request by using the given handler
@@ -76,7 +76,7 @@ class OneAllSocialLogin_Communication
 	 */
 	public static function is_api_connection_fsockopen_ok ($secure = true)
 	{
-		if ($this->is_fsockopen_available ())
+		if (self::is_fsockopen_available ())
 		{
 			$result = self::do_fsockopen_request (($secure ? 'https' : 'http') . '://www.oneall.com/ping.html');
 			if (is_object ($result) and property_exists ($result, 'http_code') and $result->http_code == 200)
