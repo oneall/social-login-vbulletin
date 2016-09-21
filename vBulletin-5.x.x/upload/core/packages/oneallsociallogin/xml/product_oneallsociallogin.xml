@@ -187,7 +187,7 @@
 									<div class="oneallsociallogin_caption">{vb:raw oasl_social_login_caption}</div>	
 								</vb:if>						
 								<!-- OneAll.com / Social Login {vb:raw oasl_version} for vBulletin -->
-								<div id="oneallsociallogin_login_box_top_providers" />
+								<div id="oneallsociallogin_login_box_top_providers"></div>
 								<script type="text/javascript">
 									var _oneall = _oneall || [];
 									_oneall.push(
