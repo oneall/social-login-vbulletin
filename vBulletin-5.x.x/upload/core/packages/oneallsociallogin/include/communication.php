@@ -26,7 +26,7 @@
 class OneAllSocialLogin_Communication
 {
 	// User agent for API requests
-	const USER_AGENT = 'User-Agent: SocialLogin VBulletin (+http://www.oneall.com/)';
+	const USER_AGENT = 'SocialLogin/1.3 vBulletin/5.x (+http://www.oneall.com/)';
 	
 	/**
 	 * Send an API request by using the given handler
@@ -152,7 +152,7 @@ class OneAllSocialLogin_Communication
 		// Create HTTP request
 		$defaults = array(
 			'Host' => "Host: $host",
-			'User-Agent' => self::USER_AGENT
+			'User-Agent' => "User-Agent: ".self::USER_AGENT
 		);
 		
 		// Enable basic authentication
