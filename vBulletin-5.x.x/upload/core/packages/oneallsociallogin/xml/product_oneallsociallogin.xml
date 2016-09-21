@@ -2,14 +2,14 @@
 <product productid="oneallsociallogin" active="1" displayorder="1">
 	<title>OneAll Social Login</title>
 	<description><![CDATA[Social Login for vBulletin allows your users to login and register with their social network accounts. It increases your user registration rate by simplifying the registration and provides demograpic data retrieved from the social network profiles.]]></description> 
-	<version>1.1.2</version>
+	<version>1.2.0</version>
 	<url>http://www.oneall.com</url>
 	<versioncheckurl />
 	<dependencies>
 		<dependency dependencytype="php" minversion="5" maxversion="" />
 	</dependencies>
 	<codes>
-		<code version="1.1.2">
+		<code version="1.2.0">
 			<installcode>
 				<![CDATA[		
 				
