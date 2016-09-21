@@ -86,10 +86,10 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 			
 			// Make Request.
 			$result = OneAllSocialLogin_Communication::do_api_request ($api_connection_handler, $api_connection_url, $api_credentials);
-			
+
 			// Extract User Data
 			if (($user_data = OneAllSocialLogin_Toolbox::extract_social_network_profile ($result)) !== false)
-			{
+			{				
 				// This is the user to process
 				$userid = null;
 				
@@ -98,10 +98,10 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 				{
 					// Get user_id by token.
 					$userid_tmp = OneAllSocialLogin_Toolbox::get_userid_for_user_token ($user_data ['user_token']);
-					
+			
 					// We already have a user for this token.
 					if (is_numeric ($userid_tmp))
-					{
+					{						
 						// Process this user.
 						$userid = $userid_tmp;
 					}
@@ -131,7 +131,7 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 						
 						// No user has been linked to this token yet.
 						if (!is_numeric ($userid))
-						{
+						{							
 							// Username is mandatory.
 							if (!isset ($user_data ['user_login']) || strlen (trim ($user_data ['user_login'])) == 0)
 							{
@@ -149,19 +149,19 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 								}
 								$user_data ['user_login'] = $user_login_tmp;
 							}
-							
+											
 							// Not a random email address.
-							$user_random_email = false;
-							
+							$user_random_email = false;							
+		
 							// Email must be unique
-							if (!isset ($user_data ['user_email']) || OneAllSocialLogin_Toolbox::get_userid_for_email_address ($user_data ['user_email']) !== false)
-							{
+							if (!isset ($user_data ['user_email']) || strlen (trim ($user_data ['user_email'])) == 0 || OneAllSocialLogin_Toolbox::get_userid_for_email_address ($user_data ['user_email']) !== false)
+							{					
 								// Create a random email address.
 								$user_data ['user_email'] = OneAllSocialLogin_Toolbox::generate_random_email_address ();
 								
 								// This is a random email address.
 								$user_random_email = true;
-							}
+							}						
 							
 							// Create a new user
 							$result = OneAllSocialLogin_Toolbox::create_user ($user_data);
@@ -284,6 +284,7 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 		}
 	}
 }
+
 
 // Default
 exec_header_redirect ($redirect_url);
