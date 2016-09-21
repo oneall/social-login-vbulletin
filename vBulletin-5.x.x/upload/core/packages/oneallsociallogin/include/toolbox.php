@@ -595,7 +595,7 @@ class OneAllSocialLogin_Toolbox
 	/**
 	 * Generates a random hash of the given length
 	 */
-	protected function generate_hash ($length)
+	public static function generate_hash ($length)
 	{
 		$hash = '';
 		
@@ -616,7 +616,7 @@ class OneAllSocialLogin_Toolbox
 	/**
 	 * Generates a random email address
 	 */
-	protected function generate_random_email_address ()
+	public static function generate_random_email_address ()
 	{
 		do
 		{
