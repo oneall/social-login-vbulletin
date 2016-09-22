@@ -104,7 +104,7 @@ class OneAllSocialLogin_Toolbox
 		$user = new vB_Datamanager_User (vB_DataManager_Constants::ERRTYPE_ARRAY_UNPROCESSED);
 		$user->set ('email', $vbulletin->db->escape_string ($user_data ['user_email']));
 		$user->set ('ipaddress', vB::getRequest ()->getIpAddress ());
-		$user->set ('username', $vbulletin->db->escape_string ($user_data ['user_login_clean']));
+		$user->set ('username', $vbulletin->db->escape_string ($user_data ['user_login']));
 		$user->set ('usergroupid', ($vbulletin->options ['moderatenewmembers'] ? 4 : 2));
 		$user->set ('usertitle', vB_Api::instanceInternal ('user')->getUsertitleFromPosts (0));
 		$user->set ('customtitle', 0);

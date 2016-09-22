@@ -110,7 +110,7 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 					{
 						// Make sure that account linking is enabled.
 						if (!empty ($oasl_settings ['enable_auto_link']))
-						{
+						{					
 							// Make sure that the email has been verified.
 							if (!empty ($user_data ['user_email']) && isset ($user_data ['user_email_is_verified']) && $user_data ['user_email_is_verified'] === true)
 							{
@@ -127,7 +127,7 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 									}
 								}
 							}
-						}
+						}		
 						
 						// No user has been linked to this token yet.
 						if (!is_numeric ($userid))
@@ -136,8 +136,8 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 							if (!isset ($user_data ['user_login']) || strlen (trim ($user_data ['user_login'])) == 0)
 							{
 								$user_data ['user_login'] = $user_data ['identity_provider'] . 'User';
-							}
-							
+							}							
+					
 							// Username must be unique.
 							if (OneAllSocialLogin_Toolbox::get_userid_for_username ($user_data ['user_login']) !== false)
 							{
@@ -149,7 +149,7 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 								}
 								$user_data ['user_login'] = $user_login_tmp;
 							}
-											
+															
 							// Not a random email address.
 							$user_random_email = false;							
 		
@@ -165,7 +165,7 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 							
 							// Create a new user
 							$result = OneAllSocialLogin_Toolbox::create_user ($user_data);
-							
+									
 							// User Created
 							if (is_array ($result) && !empty ($result ['userid']))
 							{
