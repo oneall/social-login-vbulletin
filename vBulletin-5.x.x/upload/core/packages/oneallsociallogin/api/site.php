@@ -33,7 +33,7 @@ class Oneallsociallogin_Api_Site extends vB_Api_Extensions
 	protected $product = 'oneallsociallogin';
 	protected $title = 'OneAll Social Login';
 	public $AutoInstall = 1;
-	public $version = '1.2.0';
+	public $version = '1.2.1';
 	public $developer = 'OneAll';
 	private $settings = null;
 	
