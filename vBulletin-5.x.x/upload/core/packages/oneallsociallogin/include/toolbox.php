@@ -100,20 +100,30 @@ class OneAllSocialLogin_Toolbox
 	{
 		global $vbulletin;
 		
+		// Counter
+		$i = 0;
+		
 		// Setup user
-		$user = new vB_Datamanager_User (vB_DataManager_Constants::ERRTYPE_ARRAY_UNPROCESSED);
-		$user->set ('email', $vbulletin->db->escape_string ($user_data ['user_email']));
-		$user->set ('ipaddress', vB::getRequest ()->getIpAddress ());
-		$user->set ('username', $vbulletin->db->escape_string ($user_data ['user_login']));
-		$user->set ('usergroupid', ($vbulletin->options ['moderatenewmembers'] ? 4 : 2));
-		$user->set ('usertitle', vB_Api::instanceInternal ('user')->getUsertitleFromPosts (0));
-		$user->set ('customtitle', 0);
-		$user->set ('passworddate', date ('Y-m-d', vB::getRequest ()->getTimeNow ()));
-		$user->set ('secret', vB_Library::instance ('user')->generateUserSecret ());
-		$user->set ('joindate', time ());
-		$user->set ('posts', 0);
-		$user->set ('logintype', 'fb');
-		$user->pre_save ();
+		do
+		{			
+			$user = new vB_Datamanager_User (vB_DataManager_Constants::ERRTYPE_ARRAY_UNPROCESSED);
+			$user->set ('email', $vbulletin->db->escape_string ($user_data ['user_email']));
+			$user->set ('ipaddress', vB::getRequest ()->getIpAddress ());
+			$user->set ('username', $vbulletin->db->escape_string (($user_data ['user_login'].($i > 0 ? $i : ''))));
+			$user->set ('usergroupid', ($vbulletin->options ['moderatenewmembers'] ? 4 : 2));
+			$user->set ('usertitle', vB_Api::instanceInternal ('user')->getUsertitleFromPosts (0));
+			$user->set ('customtitle', 0);
+			$user->set ('passworddate', date ('Y-m-d', vB::getRequest ()->getTimeNow ()));
+			$user->set ('secret', vB_Library::instance ('user')->generateUserSecret ());
+			$user->set ('joindate', time ());
+			$user->set ('posts', 0);
+			$user->set ('logintype', 'fb');
+			$user->pre_save ();
+						
+			// Next Step
+			$i++;		
+		} 
+		while ($i < 10 && is_array ($user->errors) && count ($user->errors) == 1 && in_array ('usernametaken', $user->errors[0]));
 		
 		// Errors
 		if (empty ($user->errors))
@@ -134,6 +144,11 @@ class OneAllSocialLogin_Toolbox
 				'userid' => $userid,
 				'password' => $password 
 			);
+		}
+		else
+		{
+			echo "<h2>Error during user registration</h2>";
+			echo "<pre>".print_r ($user->errors, true).'</pre>';
 		}
 		
 		// Error

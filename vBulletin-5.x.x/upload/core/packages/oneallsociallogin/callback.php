@@ -137,19 +137,7 @@ if (!empty ($arguments ['oa_action']) && !empty ($arguments ['connection_token']
 							{
 								$user_data ['user_login'] = $user_data ['identity_provider'] . 'User';
 							}							
-					
-							// Username must be unique.
-							if (OneAllSocialLogin_Toolbox::get_userid_for_username ($user_data ['user_login']) !== false)
-							{
-								$i = 1;
-								$user_login_tmp = $user_data ['user_login'] . ($i);
-								while ( OneAllSocialLogin_Toolbox::get_userid_for_username ($user_login_tmp) !== false )
-								{
-									$user_login_tmp = $user_data ['user_login'] . ($i ++);
-								}
-								$user_data ['user_login'] = $user_login_tmp;
-							}
-															
+																			
 							// Not a random email address.
 							$user_random_email = false;							
 		
