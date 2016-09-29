@@ -100,8 +100,47 @@ class OneAllSocialLogin_Toolbox
 	{
 		global $vbulletin;
 		
-		// Counter
-		$i = 0;
+		// These are the usernames thar we will try to use
+		$usernames = array ();
+		
+		// Login
+		if ( ! empty ($user_data ['user_login']))
+		{
+			$usernames[] = $user_data ['user_login'];
+		}
+		
+		// Full Name
+		if ( ! empty ($user_data ['user_full_name']))
+		{
+			$usernames[] = $user_data ['user_full_name'];
+		}
+		
+		// First Name
+		if ( ! empty ($user_data ['user_first_name']))
+		{
+			$usernames[] = $user_data ['user_first_name'];
+		}
+
+		// Based on social network
+		if ( ! empty ($user_data ['identity_provider']))
+		{
+			$usernames[] = $user_data ['identity_provider'].'User';
+		}
+		
+		// Something really generic
+		$usernames[] = 'User';		
+
+		// Construct alternate usernames
+		foreach ($usernames AS $username)
+		{
+			for ($i = 1; $i <= 5; $i++)
+			{
+				$usernames[] = $username.$i;
+			}
+		}		
+
+		// Username
+		$username = array_shift ($usernames);
 		
 		// Setup user
 		do
@@ -109,7 +148,7 @@ class OneAllSocialLogin_Toolbox
 			$user = new vB_Datamanager_User (vB_DataManager_Constants::ERRTYPE_ARRAY_UNPROCESSED);
 			$user->set ('email', $vbulletin->db->escape_string ($user_data ['user_email']));
 			$user->set ('ipaddress', vB::getRequest ()->getIpAddress ());
-			$user->set ('username', $vbulletin->db->escape_string (($user_data ['user_login'].($i > 0 ? $i : ''))));
+			$user->set ('username', $vbulletin->db->escape_string ($username));
 			$user->set ('usergroupid', ($vbulletin->options ['moderatenewmembers'] ? 4 : 2));
 			$user->set ('usertitle', vB_Api::instanceInternal ('user')->getUsertitleFromPosts (0));
 			$user->set ('customtitle', 0);
@@ -119,12 +158,14 @@ class OneAllSocialLogin_Toolbox
 			$user->set ('posts', 0);
 			$user->set ('logintype', 'fb');
 			$user->pre_save ();
-						
-			// Next Step
-			$i++;		
+			
+			// Next one
+			$username = array_shift ($usernames);	
+
 		} 
-		while ($i < 10 && is_array ($user->errors) && count ($user->errors) == 1 && in_array ('usernametaken', $user->errors[0]));
+		while ( ! is_null($username) && is_array ($user->errors) && count ($user->errors) == 1 && in_array ('usernametaken', $user->errors[0]));
 		
+
 		// Errors
 		if (empty ($user->errors))
 		{
@@ -149,6 +190,7 @@ class OneAllSocialLogin_Toolbox
 		{
 			echo "<h2>Error during user registration</h2>";
 			echo "<pre>".print_r ($user->errors, true).'</pre>';
+			exit;
 		}
 		
 		// Error
