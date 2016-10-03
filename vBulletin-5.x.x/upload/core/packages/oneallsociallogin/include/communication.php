@@ -26,7 +26,7 @@
 class OneAllSocialLogin_Communication
 {
 	// User agent for API requests
-	const USER_AGENT = 'SocialLogin/1.2.2 vBulletin/5.x (+http://www.oneall.com/)';
+	const USER_AGENT = 'SocialLogin/1.2.3 vBulletin/5.x (+http://www.oneall.com/)';
 	
 	/**
 	 * Send an API request by using the given handler

@@ -100,7 +100,7 @@ class OneAllSocialLogin_Toolbox
 	{
 		global $vbulletin;
 		
-		// These are the usernames thar we will try to use
+		// These are the usernames that we will try to use
 		$usernames = array ();
 		
 		// Login
