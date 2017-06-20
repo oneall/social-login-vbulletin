@@ -353,6 +353,13 @@
 					<span class="oneallsociallogin_provider oneallsociallogin_provider_draugiem"></span>
 					<span class="oneallsociallogin_provider_setting_caption">Enable Draugiem?</span>
 				</div>]]>
+			</phrase>			
+			<phrase name="setting_oneallsociallogin_provider_dribbble_title" date="0" username="OneAll" version="1.0.0">Dribbble</phrase>
+			<phrase name="setting_oneallsociallogin_provider_dribbble_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_dribbble"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Dribbble?</span>
+				</div>]]>
 			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_facebook_title" date="0" username="OneAll" version="1.0.0">Facebook</phrase>
 			<phrase name="setting_oneallsociallogin_provider_facebook_desc" date="0" username="OneAll" version="1.0.0">
@@ -389,6 +396,13 @@
 					<span class="oneallsociallogin_provider_setting_caption">Enable Instagram?</span>
 				</div>]]>
 			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_line_title" date="0" username="OneAll" version="1.0.0">Line</phrase>
+			<phrase name="setting_oneallsociallogin_provider_line_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_line"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Line?</span>
+				</div>]]>
+			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_linkedin_title" date="0" username="OneAll" version="1.0.0">LinkedIn</phrase>
 			<phrase name="setting_oneallsociallogin_provider_linkedin_desc" date="0" username="OneAll" version="1.0.0">
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
@@ -408,6 +422,13 @@
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
 					<span class="oneallsociallogin_provider oneallsociallogin_provider_mailru"></span>
 					<span class="oneallsociallogin_provider_setting_caption">Enable Mail.ru?</span>
+				</div>]]>
+			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_meetup_title" date="0" username="OneAll" version="1.0.0">Meetup</phrase>
+			<phrase name="setting_oneallsociallogin_provider_meetup_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_meetup"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Meetup?</span>
 				</div>]]>
 			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_odnoklassniki_title" date="0" username="OneAll" version="1.0.0">Odnoklassniki</phrase>
@@ -431,6 +452,20 @@
 					<span class="oneallsociallogin_provider_setting_caption">Enable PayPal?</span>
 				</div>]]>
 			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_pinterest_title" date="0" username="OneAll" version="1.0.0">Pinterest</phrase>
+			<phrase name="setting_oneallsociallogin_provider_pinterest_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_pinterest"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Pinterest?</span>
+				</div>]]>
+			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_pixelpin_title" date="0" username="OneAll" version="1.0.0">PixelPin</phrase>
+			<phrase name="setting_oneallsociallogin_provider_pixelpin_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_pixelpin"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable PixelPin?</span>
+				</div>]]>
+			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_reddit_title" date="0" username="OneAll" version="1.0.0">Reddit</phrase>
 			<phrase name="setting_oneallsociallogin_provider_reddit_desc" date="0" username="OneAll" version="1.0.0">
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
@@ -443,6 +478,13 @@
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
 					<span class="oneallsociallogin_provider oneallsociallogin_provider_skyrock"></span>
 					<span class="oneallsociallogin_provider_setting_caption">Enable Skyrock.com?</span>
+				</div>]]>
+			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_soundcloud_title" date="0" username="OneAll" version="1.0.0">SoundCloud</phrase>
+			<phrase name="setting_oneallsociallogin_provider_soundcloud_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_soundcloud"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable SoundCloud?</span>
 				</div>]]>
 			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_stackexchange_title" date="0" username="OneAll" version="1.0.0">StackExchange</phrase>
@@ -778,6 +820,11 @@
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
 			</setting>
+			<setting varname="oneallsociallogin_provider_dribbble" displayorder="50">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
 			<setting varname="oneallsociallogin_provider_facebook" displayorder="60">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
@@ -803,6 +850,11 @@
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
 			</setting>
+			<setting varname="oneallsociallogin_provider_line" displayorder="110">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
 			<setting varname="oneallsociallogin_provider_linkedin" displayorder="110">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
@@ -814,6 +866,11 @@
 				<defaultvalue>0</defaultvalue>
 			</setting>
 			<setting varname="oneallsociallogin_provider_mailru" displayorder="130">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
+			<setting varname="oneallsociallogin_provider_meetup" displayorder="130">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
@@ -833,12 +890,27 @@
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
 			</setting>
+			<setting varname="oneallsociallogin_provider_pinterest" displayorder="160">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
+			<setting varname="oneallsociallogin_provider_pixelpin" displayorder="160">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
 			<setting varname="oneallsociallogin_provider_reddit" displayorder="170">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
 			</setting>
 			<setting varname="oneallsociallogin_provider_skyrock" displayorder="180">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
+			<setting varname="oneallsociallogin_provider_soundcloud" displayorder="190">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
