@@ -1,8 +1,8 @@
 <?php
 /**
- * @package   	OneAll Social Login
- * @copyright 	Copyright 2013-2016 http://www.oneall.com - All rights reserved.
- * @license   	GNU/GPL 2 or later
+ * @package       OneAll Social Login
+ * @copyright     Copyright 2013-2016 http://www.oneall.com - All rights reserved.
+ * @license       GNU/GPL 2 or later
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,38 +24,38 @@
  */
 
 // Functions
-require_once (DIR . '/packages/oneallsociallogin/include/toolbox.php');
+require_once DIR . '/packages/oneallsociallogin/include/toolbox.php';
 
 // Template modification
 class Oneallsociallogin_Api_Template extends vB_Api_Extensions
 {
-	public $product = 'oneallsociallogin';
-	public $version = '1.2.3';
-	public $developer = 'OneAll';
-	public $title = 'Oneall Social Login';
-	public $AutoInstall = 1;
+    public $product = 'oneallsociallogin';
+    public $version = '1.2.4';
+    public $developer = 'OneAll';
+    public $title = 'Oneall Social Login';
+    public $AutoInstall = 1;
 
-	public static function fetchBulk ($result, $template_names, $styleid = -1, $type = 'compiled')
-	{
-		// Check result
-		if (is_array ($result) and !empty ($result ['header']))
-		{
-			// Make sure the plugin is enabled
-			if (OneAllSocialLogin_Toolbox::display_plugin ())
-			{
-				// Template parser
-				require_once (DIR . '/includes/class_template_parser.php');
-				
-				// Setup our login box
-				$parser = new vB_TemplateParser ('{vb:template display_providers_login_box}');
-				$parser->dom_doc = new vB_DomDocument ($parser->fetch_dom_compatible ());
-				$login_box = $parser->_parse_nodes ($parser->dom_doc->childNodes ());
-				
-				// Replace
-				$result ['header'] = preg_replace ('/<li\s+id=(["\']{1})idLoginIframeContainer/i', $login_box . '\0', $result ['header']);
-			}
-		}
-		
-		return $result;
-	}
+    public static function fetchBulk($result, $template_names, $styleid = -1, $type = 'compiled')
+    {
+        // Check result
+        if (is_array($result) and !empty($result['header']))
+        {
+            // Make sure the plugin is enabled
+            if (OneAllSocialLogin_Toolbox::display_plugin())
+            {
+                // Template parser
+                require_once DIR . '/includes/class_template_parser.php';
+
+                // Setup our login box
+                $parser = new vB_TemplateParser('{vb:template display_providers_login_box}');
+                $parser->dom_doc = new vB_DomDocument($parser->fetch_dom_compatible());
+                $login_box = $parser->_parse_nodes($parser->dom_doc->childNodes());
+
+                // Replace
+                $result['header'] = preg_replace('/<li\s+id=(["\']{1})idLoginIframeContainer/i', $login_box . '\0', $result['header']);
+            }
+        }
+
+        return $result;
+    }
 }
