@@ -2,14 +2,14 @@
 <product productid="oneallsociallogin" active="1" displayorder="1">
 	<title>OneAll Social Login</title>
 	<description><![CDATA[Social Login for vBulletin4 allows your users to login and register with their social network accounts. It increases your user registration rate by simplifying the registration and provides demograpic data retrieved from the social network profiles.]]></description> 
-	<version>1.0.4</version>
+	<version>1.1.0</version>
 	<url>http://www.oneall.com</url>
 	<versioncheckurl />
 	<dependencies>
 		<dependency dependencytype="php" minversion="5" maxversion="" />
 	</dependencies>
 	<codes>
-		<code version="1.0.4">
+		<code version="1.1.0">
 			<installcode>
 				<![CDATA[		
 				
@@ -340,6 +340,13 @@
 					<span class="oneallsociallogin_provider_setting_caption">Enable Blogger?</span>
 				</div>]]>
 			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_discord_title" date="0" username="OneAll" version="1.0.0">Discord</phrase>
+			<phrase name="setting_oneallsociallogin_provider_discord_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_discord"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Discord?</span>
+				</div>]]>
+			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_disqus_title" date="0" username="OneAll" version="1.0.0">Disqus</phrase>
 			<phrase name="setting_oneallsociallogin_provider_disqus_desc" date="0" username="OneAll" version="1.0.0">
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
@@ -501,6 +508,13 @@
 					<span class="oneallsociallogin_provider_setting_caption">Enable Steam?</span>
 				</div>]]>
 			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_tumblr_title" date="0" username="OneAll" version="1.0.0">Tumblr</phrase>
+			<phrase name="setting_oneallsociallogin_provider_tumblr_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_tumblr"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Tumblr?</span>
+				</div>]]>
+			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_twitch_title" date="0" username="OneAll" version="1.0.0">Twitch.tv</phrase>
 			<phrase name="setting_oneallsociallogin_provider_twitch_desc" date="0" username="OneAll" version="1.0.0">
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
@@ -529,6 +543,13 @@
 					<span class="oneallsociallogin_provider_setting_caption">Enable VKontakte?</span>
 				</div>]]>
 			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_weibo_title" date="0" username="OneAll" version="1.0.0">Weibo</phrase>
+			<phrase name="setting_oneallsociallogin_provider_weibo_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_weibo"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Weibo?</span>
+				</div>]]>
+			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_windowslive_title" date="0" username="OneAll" version="1.0.0">Windows Live</phrase>
 			<phrase name="setting_oneallsociallogin_provider_windowslive_desc" date="0" username="OneAll" version="1.0.0">
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
@@ -541,6 +562,13 @@
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
 					<span class="oneallsociallogin_provider oneallsociallogin_provider_wordpress"></span>
 					<span class="oneallsociallogin_provider_setting_caption">Enable WordPress.com?</span>
+				</div>]]>
+			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_xing_title" date="0" username="OneAll" version="1.0.0">Xing</phrase>
+			<phrase name="setting_oneallsociallogin_provider_xing_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_xing"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Xing?</span>
 				</div>]]>
 			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_yahoo_title" date="0" username="OneAll" version="1.0.0">Yahoo</phrase>
@@ -810,6 +838,11 @@
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
 			</setting>
+			<setting varname="oneallsociallogin_provider_discord" displayorder="40">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
 			<setting varname="oneallsociallogin_provider_disqus" displayorder="40">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
@@ -925,6 +958,11 @@
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
 			</setting>
+			<setting varname="oneallsociallogin_provider_tumblr" displayorder="200">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
 			<setting varname="oneallsociallogin_provider_twitch" displayorder="210">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
@@ -945,12 +983,22 @@
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
 			</setting>
+			<setting varname="oneallsociallogin_provider_weibo" displayorder="240">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
 			<setting varname="oneallsociallogin_provider_windowslive" displayorder="250">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
 			</setting>
 			<setting varname="oneallsociallogin_provider_wordpress" displayorder="260">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
+			<setting varname="oneallsociallogin_provider_xing" displayorder="270">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
