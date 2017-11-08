@@ -1,4 +1,8 @@
-# Social Login
+## Available Versions
+* **Social Login for vBulletin 4.0+**
+* [Social Login for vBulletin 5.0+](https://github.com/oneall/social-login-vbulletin/tree/vbulletin/5.0+)
+
+# Social Login 1.0.4 for vBulletin 8.0+
 Social Login for vBulletin allows your users to login and register with 25+ social networks. 
 It increases your vBulletin user registration rate by simplifying the registration process for 
 new users and provides permission-based social data retrieved from the social network profiles.
@@ -46,5 +50,10 @@ https://docs.oneall.com/plugins/guide/social-login-vbulletin/
 ## About Us
 Social Login is maintained by [OneAll](http://www.oneall.com/). OneAll, a technology company offering a set of 
 web-delivered tools and services for establishing and optimizing a site's connection with social networks.
+
+
+## License
+The **GNU General Public License** (GPL) is available at http://www.gnu.org/licenses/old-licenses/gpl-2.0.html.
+
 
 **Fork us on Github!**
