@@ -617,7 +617,7 @@
     				<script type='text/javascript'>
     				
     					$( document ).ready(function() { 
-    						$('head').append('<link href=\"./include/assets/css/backend.css\" rel=\"stylesheet\" type=\"text/css\" />');
+    						$('head').append('<link href=\"./core/packages/oneallsociallogin/include/assets/css/backend.css\" rel=\"stylesheet\" type=\"text/css\" />');
     					});
     				    				
 						/* Autodetect API Connection Handler */
