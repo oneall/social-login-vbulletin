@@ -30,13 +30,15 @@ require_once DIR . '/packages/oneallsociallogin/include/toolbox.php';
 class Oneallsociallogin_Api_Template extends vB_Api_Extensions
 {
     public $product = 'oneallsociallogin';
-    public $version = '2.3.0';
+    public $version = '2.3.1';
     public $developer = 'OneAll';
     public $title = 'Oneall Social Login';
     public $AutoInstall = 1;
 
     public static function fetchBulk($result, $template_names, $styleid = -1, $type = 'compiled')
     {
+        global $vbulletin;
+
         // Check result
         if (is_array($result) and !empty($result['header']))
         {
@@ -51,9 +53,44 @@ class Oneallsociallogin_Api_Template extends vB_Api_Extensions
                 $parser->dom_doc = new vB_DomDocument($parser->fetch_dom_compatible());
                 $login_box = $parser->_parse_nodes($parser->dom_doc->childNodes());
 
+                // From 5.3.4 result['header'] include a new tpl which contain login modal named top_menu_user
+                // for non logged user
+                if (empty($vbulletin->userinfo['userid']))
+                {
+                    // $find_string = 'idLoginIframeContainer';
+                    $top_menu_user_tpl = vB_Template::create('top_menu_user');
+                    $top_menu_user_string = $top_menu_user_tpl->render();
+
+                    $result['header'] = preg_replace('/\' \. vB_Template_Runtime::includeTemplate\(\'top_menu_user\'(.*)\. \'/i', $top_menu_user_string, $result['header']);
+                }
+
                 // Replace
                 $result['header'] = preg_replace('/<li\s+id=(["\']{1})idLoginIframeContainer/i', $login_box . '\0', $result['header']);
             }
+        }
+
+        // Check result
+        if (is_array($result) and !empty($result['widget_register']))
+        {
+            // Make sure the plugin is enabled
+            if (OneAllSocialLogin_Toolbox::display_plugin())
+            {
+                // Template parser
+                require_once DIR . '/includes/class_template_parser.php';
+
+                // Setup our login box
+                $parser = new vB_TemplateParser('{vb:template display_providers_login_box_register}');
+                $parser->dom_doc = new vB_DomDocument($parser->fetch_dom_compatible());
+                $login_box = $parser->_parse_nodes($parser->dom_doc->childNodes());
+
+                // From 5.3.4 result['header'] include a new tpl which contain login modal named top_menu_user
+                // for non logged user
+                if (empty($vbulletin->userinfo['userid']))
+                {
+                    // Replace
+                    $result['widget_register'] = preg_replace('/<div class="b-module\' \. vB_Template_Runtime::vBVar\(\$widgetConfig\[\'show_at_breakpoints_css_classes\'\]\) \. \' canvas-widget registration-widget/i', $login_box . '\0', $result['widget_register']);
+                }
+            };
         }
 
         return $result;

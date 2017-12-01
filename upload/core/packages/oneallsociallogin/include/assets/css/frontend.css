@@ -8,8 +8,8 @@
 }
 
 #oneallsociallogin_login_box_top {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 	margin: 10px;
+	min-height: 65px !important;
 }
 
 #oneallsociallogin_login_box_top .oneallsociallogin_caption {
@@ -18,6 +18,24 @@
 }
 
 #oneallsociallogin_login_box_top #oneallsociallogin_login_box_top_providers {
+	height: 65px !important;
+}
+
+#oneallsociallogin_login_box_register {
+	margin: 0 0 10px 30px;
+	min-height: 65px !important;
+}
+
+#oneallsociallogin_login_box_register h4 {
+	margin: 10px 0 30px;
+}
+
+#oneallsociallogin_login_box_register .oneallsociallogin_caption {
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+#oneallsociallogin_login_box_register #oneallsociallogin_login_register_providers {
 	height: 65px !important;
 }
 
