@@ -59,13 +59,13 @@
 			<uninstallcode>
 				<![CDATA[
 					
-					$sql = ""DROP TABLE IF EXISTS `" . TABLE_PREFIX . "oasl_user`";
+					$sql = "DROP TABLE IF EXISTS `" . TABLE_PREFIX . "oasl_user`";
 					$vbulletin->db->query_write($sql);
 				
-               		$sql = ""DROP TABLE IF EXISTS `" . TABLE_PREFIX . "oasl_identity`";
+               		$sql = "DROP TABLE IF EXISTS `" . TABLE_PREFIX . "oasl_identity`";
 					$vbulletin->db->query_write($sql);
 					
-					$sql = ""DROP TABLE IF EXISTS `" . TABLE_PREFIX . "oasl_session`";
+					$sql = "DROP TABLE IF EXISTS `" . TABLE_PREFIX . "oasl_session`";
 					$vbulletin->db->query_write($sql);
 										
 				]]>
