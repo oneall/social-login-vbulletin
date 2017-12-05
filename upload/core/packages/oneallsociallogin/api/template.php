@@ -42,47 +42,55 @@ class Oneallsociallogin_Api_Template extends vB_Api_Extensions
         {
             require_once DIR . '/includes/class_template_parser.php';
 
-            //Load OA tpl
-            $top_menu_user_tpl = vB_Template::create('display_providers_login_box');
+            // Register page
+            if (preg_match('/<li\s+id=(["\']{1})idLoginIframeContainer/i', $html))
+            {
+                //Load OA tpl
+                $top_menu_user_tpl = vB_Template::create('display_providers_login_box');
 
-            // load vBulletin default variables
-            $vboptions = vB5_Template_Options::instance()->getOptions();
-            $vboptions = $vboptions['options'];
-            $top_menu_user_tpl->register('vboptions', $vboptions, true);
+                // load vBulletin default variables
+                $vboptions = vB5_Template_Options::instance()->getOptions();
+                $vboptions = $vboptions['options'];
+                $top_menu_user_tpl->register('vboptions', $vboptions, true);
 
-            // get and set OA vars to tpl
-            $oa = new Oneallsociallogin_Api_Site('site');
-            $top_menu_user_tpl->register('oasl_providers', $oa->enabled_providers_js());
-            $top_menu_user_tpl->register('oasl_version', $oa->version());
-            $top_menu_user_tpl->register('oasl_num_providers', $oa->num_enabled_providers());
-            $top_menu_user_tpl->register('oasl_social_login_caption', $oa->social_login_caption());
+                // get and set OA vars to tpl
+                $oa = new Oneallsociallogin_Api_Site('site');
+                $top_menu_user_tpl->register('oasl_providers', $oa->enabled_providers_js());
+                $top_menu_user_tpl->register('oasl_version', $oa->version());
+                $top_menu_user_tpl->register('oasl_num_providers', $oa->num_enabled_providers());
+                $top_menu_user_tpl->register('oasl_social_login_caption', $oa->social_login_caption());
 
-            //get tpl html
-            $top_menu_user_string = $top_menu_user_tpl->render();
+                //get tpl html
+                $top_menu_user_string = $top_menu_user_tpl->render();
 
-            // Replace
-            $html = preg_replace('/<li\s+id=(["\']{1})idLoginIframeContainer/i', $top_menu_user_string . '\0', $html);
+                // Replace
+                $html = preg_replace('/<li\s+id=(["\']{1})idLoginIframeContainer/i', $top_menu_user_string . '\0', $html);
+            }
 
-            //Load OA tpl
-            $top_menu_user_tpl = vB_Template::create('display_providers_login_box_register');
+            // Register page
+            if (preg_match('/<div\s+class=(["\']{1}).*registration-widget/i', $html))
+            {
+                //Load OA tpl
+                $top_menu_user_tpl = vB_Template::create('display_providers_login_box_register');
 
-            // load vBulletin default variables
-            $vboptions = vB5_Template_Options::instance()->getOptions();
-            $vboptions = $vboptions['options'];
-            $top_menu_user_tpl->register('vboptions', $vboptions, true);
+                // load vBulletin default variables
+                $vboptions = vB5_Template_Options::instance()->getOptions();
+                $vboptions = $vboptions['options'];
+                $top_menu_user_tpl->register('vboptions', $vboptions, true);
 
-            // get and set OA vars to tpl
-            $oa = new Oneallsociallogin_Api_Site('site');
-            $top_menu_user_tpl->register('oasl_providers', $oa->enabled_providers_js());
-            $top_menu_user_tpl->register('oasl_version', $oa->version());
-            $top_menu_user_tpl->register('oasl_num_providers', $oa->num_enabled_providers());
-            $top_menu_user_tpl->register('oasl_social_login_caption', $oa->social_login_caption());
+                // get and set OA vars to tpl
+                $oa = new Oneallsociallogin_Api_Site('site');
+                $top_menu_user_tpl->register('oasl_providers', $oa->enabled_providers_js());
+                $top_menu_user_tpl->register('oasl_version', $oa->version());
+                $top_menu_user_tpl->register('oasl_num_providers', $oa->num_enabled_providers());
+                $top_menu_user_tpl->register('oasl_social_login_caption', $oa->social_login_caption());
 
-            //get tpl html
-            $top_menu_user_string = $top_menu_user_tpl->render();
+                //get tpl html
+                $top_menu_user_string = $top_menu_user_tpl->render();
 
-            // Replace
-            $html = preg_replace('/<div\s+class=(["\']{1}).*registration-widget/i', $top_menu_user_string . '\0', $html);
+                // Replace
+                $html = preg_replace('/<div\s+class=(["\']{1}).*registration-widget/i', $top_menu_user_string . '\0', $html);
+            }
         }
 
         return $html;
