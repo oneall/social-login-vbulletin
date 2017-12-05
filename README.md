@@ -3,7 +3,7 @@
 * [Social Login for vBulletin 4.0+](https://github.com/oneall/social-login-vbulletin/tree/vbulletin/4.0+)
 * **Social Login for vBulletin 5.0+**
 
-# Social Login 2.3.1 for vBulletin 5.0+
+# Social Login 2.3.2 for vBulletin 5.0+
 Social Login for vBulletin allows your users to login and register with 35+ social networks. 
 It increases your vBulletin user registration rate by simplifying the registration process for 
 new users and provides permission-based social data retrieved from the social network profiles.
