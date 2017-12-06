@@ -9,7 +9,7 @@
 
 #oneallsociallogin_login_box_top {
 	margin: 10px;
-	min-height: 65px !important;
+	height: 65px !important;
 }
 
 #oneallsociallogin_login_box_top .oneallsociallogin_caption {
@@ -23,7 +23,7 @@
 
 #oneallsociallogin_login_box_register {
 	margin: 0 0 10px 30px;
-	height: 65px !important;
+	min-height: 65px !important;
 }
 
 #oneallsociallogin_login_box_register h4 {
