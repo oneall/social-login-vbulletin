@@ -1,7 +1,7 @@
 <?php
 /**
  * @package       OneAll Social Login
- * @copyright     Copyright 2013-2016 http://www.oneall.com - All rights reserved.
+ * @copyright     Copyright 2013-2018 http://www.oneall.com - All rights reserved.
  * @license       GNU/GPL 2 or later
  *
  * This program is free software; you can redistribute it and/or
@@ -33,7 +33,7 @@ class Oneallsociallogin_Api_Site extends vB_Api_Extensions
     protected $product = 'oneallsociallogin';
     protected $title = 'OneAll Social Login';
     public $AutoInstall = 1;
-    public $version = '2.3.2';
+    public $version = '2.3.3';
     public $developer = 'OneAll';
     private $settings = null;
 

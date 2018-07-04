@@ -19,6 +19,7 @@
 
 #oneallsociallogin_login_box_top #oneallsociallogin_login_box_top_providers {
 	height: 65px !important;
+	overflow:hidden;
 }
 
 #oneallsociallogin_login_box_register {

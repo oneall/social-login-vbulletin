@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   	OneAll Social Login
- * @copyright 	Copyright 2013-2016 http://www.oneall.com - All rights reserved.
+ * @copyright 	Copyright 2013-2018 http://www.oneall.com - All rights reserved.
  * @license   	GNU/GPL 2 or later
  *
  * This program is free software; you can redistribute it and/or
@@ -28,7 +28,7 @@ error_reporting (E_ALL & ~E_NOTICE);
 
 // #################### PRE-CACHE TEMPLATES AND DATA ######################
 $phrasegroups = array(
-	'cphome' 
+	'cphome'
 );
 $specialtemplates = array();
 
@@ -49,7 +49,7 @@ $arguments = vB::getCleaner ()->cleanArray ($_REQUEST, array(
 	'do' => vB_Cleaner::TYPE_STR,
 	'advanced' => vB_Cleaner::TYPE_BOOL,
 	'expand' => vB_Cleaner::TYPE_BOOL,
-	'setting' => vB_Cleaner::TYPE_ARRAY 
+	'setting' => vB_Cleaner::TYPE_ARRAY
 ));
 
 $vb_options = vB::getDatastore ()->getValue ('options');
@@ -65,11 +65,11 @@ $phrases = vB::getDbAssertor ()->assertQuery ('vBForum:phrase', array(
 	'languageid' => array(
 		-1,
 		0,
-		LANGUAGEID 
-	) 
+		LANGUAGEID
+	)
 ), array(
 	'field' => 'languageid',
-	'direction' => vB_dB_Query::SORT_ASC 
+	'direction' => vB_dB_Query::SORT_ASC
 ));
 
 // Add phrases
@@ -94,7 +94,7 @@ if ($action == 'save')
 	{
 		// Social Networks
 		$providers = array();
-		
+
 		// Loop through settings
 		foreach ($arguments ['setting'] as $setting_key => $setting_value)
 		{
@@ -123,7 +123,7 @@ if ($action == 'save')
 						}
 					}
 				}
-				
+
 				// Update
 				$updateSetting = vB::getDbAssertor ()->assertQuery ('setting', array(
 					vB_dB_Query::TYPE_KEY => vB_dB_Query::QUERY_UPDATE,
@@ -132,14 +132,14 @@ if ($action == 'save')
 						array(
 							'field' => 'varname',
 							'value' => $setting_key,
-							'operator' => vB_dB_Query::OPERATOR_EQ 
-						) 
-					) 
+							'operator' => vB_dB_Query::OPERATOR_EQ
+						)
+					)
 				));
 			}
 		}
 	}
-	
+
 	// Show options
 	$action = 'display';
 }
@@ -186,29 +186,29 @@ if ($action == 'display')
 {
 	// OneAll Social Login
 	print_cp_header ($vbphrase ['oneallsociallogin_title']);
-	
+
 	echo '<script type="text/javascript" src="' . $vb_options ['bburl'] . '/clientscript/vbulletin_cpoptions_scripts.js?v=' . SIMPLE_VERSION . '"></script>';
-	
+
 	$settingscache = (isset($settingscache) && is_array ($settingscache) ? $settingscache : array());
-	
+
 	$settings = vB::getDbAssertor ()->assertQuery ('vBForum:fetchSettingsByGroup', array(
 		vB_dB_Query::TYPE_KEY => vB_dB_Query::QUERY_METHOD,
-		'debug' => true 
+		'debug' => true
 	));
-	
+
 	foreach ($settings as $setting)
 	{
 		if ( ! empty ($setting['grouptitle']))
 		{
-			$grouptitle = $setting['grouptitle'];		
+			$grouptitle = $setting['grouptitle'];
 			$varname = $setting['varname'];
-			
+
 			$settingscache [$grouptitle] [$varname] = $setting;
 			$grouptitlecache [$grouptitle] = $grouptitle;
 			$options [$grouptitle] = $settingphrase ['settinggroup_'.$grouptitle];
 		}
 	}
-	
+
 	// Form Action, vBulletin changed this in version 5.2 +
 	if (defined ('FILE_VERSION') && (version_compare (FILE_VERSION, '5.2') > 0))
 	{
@@ -218,20 +218,20 @@ if ($action == 'display')
 	{
 		$form_action = 'oneallsociallogin';
 	}
-	
-	// Header	
+
+	// Header
 	print_form_header ($form_action, 'save');
-	
+
 	// Add Hidden Fields
 	construct_hidden_code ('dogroup', $arguments ['dogroup']);
 	construct_hidden_code ('advanced', $arguments ['advanced']);
-	
+
 	// Print Settings Tables
 	foreach (array ('login', 'link', 'api', 'providers') AS $group)
 	{
 		print_setting_group ('oneallsociallogin_'.$group, $arguments ['advanced']);
 	}
-	
+
 	// Add submit buttons
 	print_submit_row ($vbphrase ['save']);
 }

@@ -2,13 +2,17 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.3] - 2018-07-04
+### Fix
+Social Login icons overlapping login button
+
 ## [2.3.2] - 2017-12-05
 ### Fix
 New method for plugin integration
 
 ## [2.3.1] - 2017-12-01
 ### Fix
-Fix icons not showed in vB 5.3.4 version
+Social Login icons not displayed in vBulletin 5.3.4
 
 ## [2.3.0] - 2017-11-08
 ### Added

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   	OneAll Social Login
- * @copyright 	Copyright 2013-2016 http://www.oneall.com - All rights reserved.
+ * @copyright 	Copyright 2013-2018 http://www.oneall.com - All rights reserved.
  * @license   	GNU/GPL 2 or later
  *
  * This program is free software; you can redistribute it and/or
@@ -67,7 +67,7 @@ class OneAllSocialLogin_Ajax
 				return 'error|fsockopen_ports_blocked|FSOCKOPEN seems to be working, but both outgoing ports are blocked';
 			}
 		}
-		
+
 		// No working handler found
 		return 'error|no_handler|Could neither detect CURL nor FSOCKOPEN';
 	}
@@ -83,34 +83,34 @@ class OneAllSocialLogin_Ajax
 		$api_secret = (!empty ($arguments ['api_secret']) ? trim (strtolower ($arguments ['api_secret'])) : '');
 		$api_connector = ((!empty ($arguments ['api_connector']) and $arguments ['api_connector'] == 'fsockopen') ? 'fsockopen' : 'curl');
 		$api_port = ((!empty ($arguments ['api_port']) and $arguments ['api_port'] == 80) ? 80 : 443);
-		
+
 		// All fields need to filled out
 		if (empty ($api_subdomain) || empty ($api_key) || empty ($api_secret))
 		{
 			return ('error|fields_missing|Please fill out all of the API fields');
 		}
-		
+
 		// Full domain entered
 		if (preg_match ("/([a-z0-9\-]+)\.api\.oneall\.com/i", $api_subdomain, $matches))
 		{
 			$api_subdomain = $matches [1];
 		}
-		
+
 		// Check subdomain format
 		if (!preg_match ("/^[a-z0-9\-]+$/i", $api_subdomain))
 		{
 			return 'error|subdomain_wrong_syntax|The API subdomain does not exist';
 		}
-		
+
 		// Domain
 		$api_domain = $api_subdomain . '.api.oneall.com';
-		
+
 		// Connection to the API
 		$api_resource_url = ($api_port == 80 ? 'http' : 'https') . '://' . $api_domain . '/tools/ping.json';
-	
+
 		// Get connection details
 		$result = OneAllSocialLogin_Communication::do_api_request ($api_connector, $api_resource_url, array('api_key' => $api_key, 'api_secret' => $api_secret), 15);
-		
+
 		// Parse result
 		if (is_object ($result) and property_exists ($result, 'http_code') and property_exists ($result, 'http_data'))
 		{
@@ -120,12 +120,12 @@ class OneAllSocialLogin_Ajax
 				case 200 :
 					return 'success|settings_correct|The API settings are correct';
 				break;
-				
+
 				// Authentication Error
 				case 401 :
 					return 'error|authentication_credentials_wrong|The API Credentials are not correct';
 				break;
-				
+
 				// Wrong Subdomain
 				case 404 :
 					return 'error|authentication_subdomain_wrong|The API Subdomain does not exist';

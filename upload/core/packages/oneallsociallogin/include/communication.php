@@ -1,7 +1,7 @@
 <?php
 /**
  * @package       OneAll Social Login
- * @copyright     Copyright 2013-2016 http://www.oneall.com - All rights reserved.
+ * @copyright     Copyright 2013-2018 http://www.oneall.com - All rights reserved.
  * @license       GNU/GPL 2 or later
  *
  * This program is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
 class OneAllSocialLogin_Communication
 {
     // User agent for API requests
-    const USER_AGENT = 'SocialLogin/2.3.1 vBulletin/5.x (+http://www.oneall.com/)';
+    const USER_AGENT = 'SocialLogin/2.3.3 vBulletin/5.x (+http://www.oneall.com/)';
 
     /**
      * Send an API request by using the given handler
