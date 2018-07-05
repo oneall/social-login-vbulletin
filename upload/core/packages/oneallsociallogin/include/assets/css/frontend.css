@@ -1,53 +1,55 @@
 #oneallsociallogin_error_box {
-	background-color: #efdfdf;
-	color: #B80C14;
-	padding: 10px;
-	line-height: 16px;
-	border: 1px dashed #B80C14;
-	display: block
+    background-color: #efdfdf;
+    color: #B80C14;
+    padding: 10px;
+    line-height: 16px;
+    border: 1px dashed #B80C14;
+    display: block
 }
 
 #oneallsociallogin_login_box_top {
-	margin: 10px;
-	height: 65px !important;
+    margin: 10px 0 5px 0;
+    height: 70px !important;
+    overflow: hidden;
+    text-align: center;
 }
 
 #oneallsociallogin_login_box_top .oneallsociallogin_caption {
-	margin-bottom: 5px;
-	font-weight: bold;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 #oneallsociallogin_login_box_top #oneallsociallogin_login_box_top_providers {
-	height: 65px !important;
-	overflow:hidden;
+    height: 70px !important;
+    overflow: hidden;
 }
 
 #oneallsociallogin_login_box_register {
-	margin: 0 0 10px 30px;
-	height: 65px !important;
+    margin: 0 0 10px 30px;
+    height: 65px !important;
 }
 
 #oneallsociallogin_login_box_register h4 {
-	margin: 10px 0 30px;
+    margin: 10px 0 30px;
 }
 
 #oneallsociallogin_login_box_register .oneallsociallogin_caption {
-	margin-bottom: 5px;
-	font-weight: bold;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 #oneallsociallogin_login_box_register #oneallsociallogin_login_register_providers {
-	height: 65px !important;
+    height: 65px !important;
 }
 
 #oneallsociallogin_link_box_profile {
-	
+    
 }
 
 #oneallsociallogin_link_box_profile .oneallsociallogin_caption {
-	
+    
 }
 
 #oneallsociallogin_link_box_profile #oneallsociallogin_link_box_profile_providers {
-	
+    
 }
