@@ -2,14 +2,14 @@
 <product productid="oneallsociallogin" active="1" displayorder="1">
 	<title>OneAll Social Login</title>
 	<description><![CDATA[Social Login for vBulletin4 allows your users to login and register with their social network accounts. It increases your user registration rate by simplifying the registration and provides demograpic data retrieved from the social network profiles.]]></description> 
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<url>http://www.oneall.com</url>
 	<versioncheckurl />
 	<dependencies>
 		<dependency dependencytype="php" minversion="5" maxversion="" />
 	</dependencies>
 	<codes>
-		<code version="1.1.0">
+		<code version="1.2.0">
 			<installcode>
 				<![CDATA[		
 				
@@ -436,6 +436,13 @@
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
 					<span class="oneallsociallogin_provider oneallsociallogin_provider_meetup"></span>
 					<span class="oneallsociallogin_provider_setting_caption">Enable Meetup?</span>
+				</div>]]>
+			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_mixer_title" date="0" username="OneAll" version="1.0.0">Mixer</phrase>
+			<phrase name="setting_oneallsociallogin_provider_mixer_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_mixer"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Mixer?</span>
 				</div>]]>
 			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_odnoklassniki_title" date="0" username="OneAll" version="1.0.0">Odnoklassniki</phrase>
