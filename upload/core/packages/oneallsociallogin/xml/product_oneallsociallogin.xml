@@ -2,14 +2,14 @@
 <product productid="oneallsociallogin" active="1" displayorder="1">
 	<title>OneAll Social Login</title>
 	<description><![CDATA[Social Login for vBulletin allows your users to login and register with their social network accounts. It increases your user registration rate by simplifying the registration and provides demograpic data retrieved from the social network profiles.]]></description> 
-	<version>2.3.3</version>
+	<version>2.4.0</version>
 	<url>http://www.oneall.com</url>
 	<versioncheckurl />
 	<dependencies>
 		<dependency dependencytype="php" minversion="5" maxversion="" />
 	</dependencies>
 	<codes>
-		<code version="2.3.3">
+		<code version="2.4.0">
 			<installcode>
 				<![CDATA[		
 				
@@ -448,6 +448,13 @@
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
 					<span class="oneallsociallogin_provider oneallsociallogin_provider_meetup"></span>
 					<span class="oneallsociallogin_provider_setting_caption">Enable Meetup?</span>
+				</div>]]>
+			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_mixer_title" date="0" username="OneAll" version="1.0.0"></phrase>
+			<phrase name="setting_oneallsociallogin_provider_mixer_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_mixer"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Mixer?</span>
 				</div>]]>
 			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_odnoklassniki_title" date="0" username="OneAll" version="1.0.0"></phrase>
@@ -909,6 +916,11 @@
 				<defaultvalue>0</defaultvalue>
 			</setting>
 			<setting varname="oneallsociallogin_provider_meetup" displayorder="130">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
+			<setting varname="oneallsociallogin_provider_mixer" displayorder="135">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
