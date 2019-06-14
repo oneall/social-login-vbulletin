@@ -1,6 +1,6 @@
 
 ## Available Versions
-* [Social Login for vBulletin 4.0.x](https://github.com/oneall/social-login-vbulletin/tree/vbulletin/4.0.x)
+* [Social Login for vBulletin 4.x](https://github.com/oneall/social-login-vbulletin/tree/vbulletin/4.x)
 * **Social Login for vBulletin 5.0+**
 
 # Social Login 2.4.0 for vBulletin 5.0+
