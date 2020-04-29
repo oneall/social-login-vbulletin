@@ -2,7 +2,7 @@
 * **Social Login for vBulletin 4.x**
 * [Social Login for vBulletin 5.0+](https://github.com/oneall/social-login-vbulletin/tree/vbulletin/5.0+)
 
-# Social Login 1.2.0 for vBulletin 4.x
+# Social Login 1.3.0 for vBulletin 4.x
 Social Login for vBulletin allows your users to login and register with 25+ social networks. 
 It increases your vBulletin user registration rate by simplifying the registration process for 
 new users and provides permission-based social data retrieved from the social network profiles.
@@ -32,6 +32,7 @@ https://docs.oneall.com/plugins/guide/social-login-vbulletin/
 * Mixer
 * Odnoklassniki
 * OpenID
+* Patreon
 * PayPal
 * Pinterest
 * Pixelpin
