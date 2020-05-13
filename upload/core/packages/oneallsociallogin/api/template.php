@@ -43,7 +43,7 @@ class Oneallsociallogin_Api_Template extends vB_Api_Extensions
             require_once DIR . '/includes/class_template_parser.php';
 
             // Register page
-            if (preg_match('/<li\s+id=(["\']{1})idLoginIframeContainer/i', $html))
+            if (preg_match('/<li\s+id=(["\']{1})(externalLoginProviders|idLoginIframeContainer)/i', $html))
             {
                 //Load OA tpl
                 $top_menu_user_tpl = vB_Template::create('display_providers_login_box');
@@ -64,7 +64,7 @@ class Oneallsociallogin_Api_Template extends vB_Api_Extensions
                 $top_menu_user_string = $top_menu_user_tpl->render();
 
                 // Replace
-                $html = preg_replace('/<li\s+id=(["\']{1})idLoginIframeContainer/i', $top_menu_user_string . '\0', $html);
+                $html = preg_replace('/<li\s+id=(["\']{1})(externalLoginProviders|idLoginIframeContainer)/i', $top_menu_user_string . '\0', $html);
             }
 
             // Register page
