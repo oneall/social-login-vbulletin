@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.5.3] - 2021-05-12
+### Fixed
+vB_Api_User :: getUsertitleFromPosts undefined
+
 ## [2.5.2] - 2020-05-14
 ### Fixed
 Logintype is not defined fix

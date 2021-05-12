@@ -30,7 +30,7 @@ require_once DIR . '/packages/oneallsociallogin/include/toolbox.php';
 class Oneallsociallogin_Api_Template extends vB_Api_Extensions
 {
     public $product = 'oneallsociallogin';
-    public $version = '2.5.2';
+    public $version = '2.5.3';
     public $developer = 'OneAll';
     public $title = 'Oneall Social Login';
     public $AutoInstall = 1;
