@@ -148,12 +148,18 @@ class OneAllSocialLogin_Toolbox
         // Setup user
         do
         {
+            $gettitle = vB::getDbAssertor()->getRow('usertitle', array(
+                vB_dB_Query::CONDITIONS_KEY => array(
+                    array('field' => 'minposts', 'value' => 0, vB_dB_Query::OPERATOR_KEY => vB_dB_Query::OPERATOR_EQ)
+                ))
+            );
+
             $user = new vB_Datamanager_User(vB_DataManager_Constants::ERRTYPE_ARRAY_UNPROCESSED);
             $user->set('email', $vbulletin->db->escape_string($user_data['user_email']));
             $user->set('ipaddress', vB::getRequest()->getIpAddress());
             $user->set('username', $vbulletin->db->escape_string($username));
             $user->set('usergroupid', ($vbulletin->options['moderatenewmembers'] ? 4 : 2));
-            $user->set('usertitle', vB_Api::instanceInternal('user')->getUsertitleFromPosts(0));
+            $user->set('usertitle', $gettitle['title']);
             $user->set('customtitle', 0);
             $user->set('passworddate', date('Y-m-d', vB::getRequest()->getTimeNow()));
             $user->set('secret', vB_Library::instance('user')->generateUserSecret());
