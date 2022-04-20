@@ -29,10 +29,13 @@ error_reporting(E_ALL & ~E_NOTICE);
 // #################### DEFINE IMPORTANT CONSTANTS #######################
 define('VB_ENTRY', 1);
 define('SKIP_REFERRER_CHECK', true);
+define('THIS_SCRIPT', 'oa_callback');
+define('VB_AREA', 'Forum');
 
 // ######################### REQUIRE BACK-END ############################
-chdir('../../');
-require_once './global.php';
+
+chdir(dirname(__FILE__) . "/../../includes");
+require_once './init.php';
 
 // #######################################################################
 // ######################## START MAIN SCRIPT ############################

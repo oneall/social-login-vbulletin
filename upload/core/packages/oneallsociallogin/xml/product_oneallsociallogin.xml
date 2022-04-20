@@ -2,14 +2,14 @@
 <product productid="oneallsociallogin" active="1" displayorder="1">
 	<title>OneAll Social Login</title>
 	<description><![CDATA[Social Login for vBulletin allows your users to login and register with their social network accounts. It increases your user registration rate by simplifying the registration and provides demograpic data retrieved from the social network profiles.]]></description> 
-	<version>2.5.3</version>
+	<version>3.0.0</version>
 	<url>http://www.oneall.com</url>
 	<versioncheckurl />
 	<dependencies>
 		<dependency dependencytype="php" minversion="5" maxversion="" />
 	</dependencies>
 	<codes>
-		<code version="2.5.3">
+		<code version="3.0.0">
 			<installcode>
 				<![CDATA[		
 				
@@ -380,6 +380,13 @@
 					<span class="oneallsociallogin_provider_setting_caption">Enable Dribbble?</span>
 				</div>]]>
 			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_epicgames_title" date="0" username="OneAll" version="1.0.0"></phrase>
+			<phrase name="setting_oneallsociallogin_provider_epicgames_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_epicgames"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Epic Games?</span>
+				</div>]]>
+			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_facebook_title" date="0" username="OneAll" version="1.0.0"></phrase>
 			<phrase name="setting_oneallsociallogin_provider_facebook_desc" date="0" username="OneAll" version="1.0.0">
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
@@ -520,6 +527,13 @@
 					<span class="oneallsociallogin_provider_setting_caption">Enable SoundCloud?</span>
 				</div>]]>
 			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_spotify_title" date="0" username="OneAll" version="1.0.0"></phrase>
+			<phrase name="setting_oneallsociallogin_provider_spotify_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_spotify"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Spotify?</span>
+				</div>]]>
+			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_stackexchange_title" date="0" username="OneAll" version="1.0.0"></phrase>
 			<phrase name="setting_oneallsociallogin_provider_stackexchange_desc" date="0" username="OneAll" version="1.0.0">
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
@@ -532,6 +546,13 @@
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
 					<span class="oneallsociallogin_provider oneallsociallogin_provider_steam"></span>
 					<span class="oneallsociallogin_provider_setting_caption">Enable Steam?</span>
+				</div>]]>
+			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_strava_title" date="0" username="OneAll" version="1.0.0"></phrase>
+			<phrase name="setting_oneallsociallogin_provider_strava_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_strava"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Strava?</span>
 				</div>]]>
 			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_tumblr_title" date="0" username="OneAll" version="1.0.0"></phrase>
@@ -602,6 +623,13 @@
 				<![CDATA[<div class="oneallsociallogin_provider_setting">
 					<span class="oneallsociallogin_provider oneallsociallogin_provider_yahoo"></span>
 					<span class="oneallsociallogin_provider_setting_caption">Enable Yahoo?</span>
+				</div>]]>
+			</phrase>
+			<phrase name="setting_oneallsociallogin_provider_yandex_title" date="0" username="OneAll" version="1.0.0"></phrase>
+			<phrase name="setting_oneallsociallogin_provider_yandex_desc" date="0" username="OneAll" version="1.0.0">
+				<![CDATA[<div class="oneallsociallogin_provider_setting">
+					<span class="oneallsociallogin_provider oneallsociallogin_provider_yandex"></span>
+					<span class="oneallsociallogin_provider_setting_caption">Enable Yandex?</span>
 				</div>]]>
 			</phrase>
 			<phrase name="setting_oneallsociallogin_provider_youtube_title" date="0" username="OneAll" version="1.0.0"></phrase>
