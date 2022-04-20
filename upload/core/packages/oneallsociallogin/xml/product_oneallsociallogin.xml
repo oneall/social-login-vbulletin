@@ -905,6 +905,11 @@
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
 			</setting>
+			<setting varname="oneallsociallogin_provider_epicgames" displayorder="60">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>1</defaultvalue>
+			</setting>
 			<setting varname="oneallsociallogin_provider_facebook" displayorder="60">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
@@ -1005,12 +1010,22 @@
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
 			</setting>
+			<setting varname="oneallsociallogin_provider_spotify" displayorder="190">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
 			<setting varname="oneallsociallogin_provider_stackexchange" displayorder="190">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
 			</setting>
 			<setting varname="oneallsociallogin_provider_steam" displayorder="200">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
+			<setting varname="oneallsociallogin_provider_strava" displayorder="200">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
@@ -1061,6 +1076,11 @@
 				<defaultvalue>0</defaultvalue>
 			</setting>
 			<setting varname="oneallsociallogin_provider_yahoo" displayorder="300">
+				<datatype>boolean</datatype>
+				<optioncode>yesno</optioncode>
+				<defaultvalue>0</defaultvalue>
+			</setting>
+			<setting varname="oneallsociallogin_provider_yandex" displayorder="300">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
 				<defaultvalue>0</defaultvalue>
