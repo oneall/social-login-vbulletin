@@ -908,7 +908,7 @@
 			<setting varname="oneallsociallogin_provider_epicgames" displayorder="60">
 				<datatype>boolean</datatype>
 				<optioncode>yesno</optioncode>
-				<defaultvalue>1</defaultvalue>
+				<defaultvalue>0</defaultvalue>
 			</setting>
 			<setting varname="oneallsociallogin_provider_facebook" displayorder="60">
 				<datatype>boolean</datatype>
