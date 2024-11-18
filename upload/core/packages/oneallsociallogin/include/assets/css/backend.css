@@ -69,7 +69,7 @@
 	background-position: -446px -1px;
 }
 
-.oneallsociallogin_provider_twitter {
+.oneallsociallogin_provider_old_twitter {
 	background-position: -520px -1px;
 }
 
@@ -209,4 +209,16 @@
 
 .oneallsociallogin_provider_spotify {
     background-position: -1889px -1px;
+}
+
+.oneallsociallogin_provider_apple {
+	background-position: -1741px -1px;
+}
+
+.oneallsociallogin_provider_tiktok {
+	background-position: -1926px -1px;
+}
+
+.oneallsociallogin_provider_twitter {
+	background-position: -1963px -1px;
 }
