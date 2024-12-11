@@ -35,7 +35,8 @@ $specialtemplates = array();
 // ########################## REQUIRE BACK-END ############################
 chdir (dirname (__FILE__) . "/../../admincp");
 require_once ('global.php');
-require_once ('includes/adminfunctions_options.php');
+chdir (dirname (__FILE__) . "/../../includes");
+require_once ('adminfunctions_options.php');
 
 // ############################# LOG ACTION ###############################
 log_admin_action ();
