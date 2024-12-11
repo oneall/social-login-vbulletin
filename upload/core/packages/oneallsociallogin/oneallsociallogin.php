@@ -202,10 +202,13 @@ if ($action == 'display')
 		{
 			$grouptitle = $setting['grouptitle'];
 			$varname = $setting['varname'];
-
-			$settingscache [$grouptitle] [$varname] = $setting;
-			$grouptitlecache [$grouptitle] = $grouptitle;
-			$options [$grouptitle] = $settingphrase ['settinggroup_'.$grouptitle];
+            
+            if (in_array($grouptitle, ['oneallsociallogin_api','oneallsociallogin_link','oneallsociallogin_login','oneallsociallogin_providers']))
+            {
+                $settingscache [$grouptitle] [$varname] = $setting;
+                $grouptitlecache [$grouptitle] = $grouptitle;
+                $options [$grouptitle] = $settingphrase ['settinggroup_' . $grouptitle];
+            }
 		}
 	}
 
